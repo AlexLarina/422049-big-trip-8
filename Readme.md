@@ -1,7 +1,7 @@
 # Личный проект «Большое путешествие» [![Build status][travis-image]][travis-url]
 
 * Студент: [Александра Ларина](https://up.htmlacademy.ru/ecmascript/8/user/422049).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Ufocoder](https://github.com/ufocoder).
 
 ---
 
