@@ -1,7 +1,17 @@
-const names = [`everything`, `future`, `past`];
-const states = [`checked`, ``, ``]; // @TODO
+import {createRandomNumber} from '../random';
 
-export const createFilters = () => names.map((name) => ({
-  name,
-  state: ``
-}));
+const names = [`everything`, `future`, `past`];
+
+const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
+export const createFilters = () => {
+  const filters = names.map((name) => ({
+    name,
+    isSelected: false,
+    description: capitalize(name)
+  }));
+
+  filters[createRandomNumber(0, filters.length - 1)].isSelected = true;
+
+  return filters;
+};

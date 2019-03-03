@@ -23,29 +23,27 @@ const OFFERS = [
 ];
 
 const createTimetable = () => {
-  let startHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
-  let endHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
-  while (endHour <= startHour) {
-    endHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
-  }
+  const startHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
+  const endHour = createRandomNumber(startHour + 1, HOUR.MAX);
 
   return ({
     start: `${startHour}:00`,
-    end: `${endHour}:00`
+    end: `${endHour}:00`,
+    duration: `${endHour - startHour}`
   });
 };
+
+const createOffers = () => chooseRandomArrayItems(
+    OFFERS,
+    createRandomNumber(0, OFFERS.length - 1)
+);
 
 export const createEvents = (limit) => (
   [...(new Array(limit)).keys()].map((_, index) => ({
     title: TITLES[index],
     icon: ICONS[index],
     timetable: createTimetable(),
-    price: createRandomNumber()
+    price: createRandomNumber(),
+    offers: createOffers(),
   }))
-);
-
-export const createOffers = (limit) => (
-  [...(new Array(limit)).keys()].map(() => {
-    return chooseRandomArrayItems(OFFERS, createRandomNumber(0, OFFERS.length - 1));
-  })
 );
