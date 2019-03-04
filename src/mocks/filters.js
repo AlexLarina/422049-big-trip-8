@@ -1,11 +1,11 @@
 import {createRandomNumber} from '../random';
 
-const names = [`everything`, `future`, `past`];
+const NAMES = [`everything`, `future`, `past`];
 
 const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
 export const createFilters = () => {
-  const filters = names.map((name) => ({
+  const filters = NAMES.map((name) => ({
     name,
     isSelected: false,
     description: capitalize(name)

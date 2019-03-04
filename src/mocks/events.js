@@ -35,7 +35,7 @@ const createTimetable = () => {
 
 const createOffers = () => chooseRandomArrayItems(
     OFFERS,
-    createRandomNumber(0, OFFERS.length - 1)
+    createRandomNumber(1, OFFERS.length - 1)
 );
 
 export const createEvents = (limit) => (
