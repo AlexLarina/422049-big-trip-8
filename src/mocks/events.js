@@ -1,8 +1,18 @@
-import {chooseRandomArrayItems, createRandomNumber} from '../random';
+import {chooseRandomArrayItems, createRandomNumber, getRandomArrayItem, getRandomObjectValue} from '../random';
 
 const HOUR = {
   MIN: 0,
   MAX: 23
+};
+
+const OFFERS_NUMBER = {
+  MIN: 0,
+  MAX: 2
+};
+
+const DESCRIPTION_ITEMS = {
+  MIN: 1,
+  MAX: 3
 };
 
 const TITLES = [
@@ -62,7 +72,7 @@ const createTimetable = () => {
 
 const createOffers = () => chooseRandomArrayItems(
     OFFERS,
-    createRandomNumber(0, 2)
+    createRandomNumber(OFFERS_NUMBER.MIN, OFFERS_NUMBER.MAX)
 );
 
 export const createEvents = (limit) => (
@@ -77,18 +87,16 @@ export const createEvents = (limit) => (
 
 // пример реализации выбранных структур для точек маршрута
 
-const chooseRandomType = (types) => {
-  const keys = Object.keys(types);
-  return types[keys[createRandomNumber(0, keys.length - 1)]];
-};
-
 const chooseRandomPicture = () => `http://picsum.photos/300/150?r=${createRandomNumber()}`;
 
-const createDescription = (template) => chooseRandomArrayItems(template.split(`.`), createRandomNumber(1, 3)).join(`. `);
+const createDescription = (template) => (
+  chooseRandomArrayItems(template.split(`.`), createRandomNumber(DESCRIPTION_ITEMS.MIN, DESCRIPTION_ITEMS.MAX))
+    .join(`. `)
+);
 
 const createEventFields = () =>({
-  type: chooseRandomType(TYPES),
-  city: CITIES[createRandomNumber(0, CITIES.length - 1)],
+  type: getRandomObjectValue(TYPES),
+  city: getRandomArrayItem(CITIES),
   url: chooseRandomPicture(),
   offers: createOffers(),
   description: createDescription(DESCRIPTION_TEMPLATE),
@@ -97,6 +105,10 @@ const createEventFields = () =>({
   price: createRandomNumber()
 });
 
-const createEvent = (fields) => new Map(Object.entries(fields));
+const createEvent = () => new Map(Object.entries(createEventFields()));
 
-export const createEventsExample = (limit) => [...(new Array(limit)).keys()].map(() => createEvent(createEventFields()));
+const createNumberRange = (limit) => [...(new Array(limit)).keys()];
+
+export const createEventsExample = (limit) => createNumberRange(limit).map(() => createEvent());
+
+console.log(createEventsExample(2));
