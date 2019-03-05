@@ -15,12 +15,39 @@ const TITLES = [
 const ICONS = [`🚕`, `✈️`, `🚗`, `🏨`];
 
 const OFFERS = [
-  `Order UBER`,
-  `Add breakfast`,
-  `Rent a car`,
-  `Select meal`,
-  `Upgrade to business`
+  `Add luggage`,
+  `Switch to comfort class`,
+  `Add meal`,
+  `Choose seats`
 ];
+
+const TYPES = {
+  'Taxi': `🚕`,
+  'Bus': `🚌`,
+  'Train': `🚂`,
+  'Ship': `🛳️`,
+  'Transport': `🚊`,
+  'Drive': `🚗`,
+  'Flight': `✈️`,
+  'Check-in': `🏨`,
+  'Sightseeing': `🏛️`,
+  'Restaurant': `🍴`
+};
+
+const CITIES = [`Istanbul`, `Izmir`, `Ankara`, `Adana`, `Bursa`, `Trabzon`];
+
+const DESCRIPTION_TEMPLATE = `
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  Cras aliquet varius magna, non porta ligula feugiat eget.
+  Fusce tristique felis at fermentum pharetra.
+  Aliquam id orci ut lectus varius viverra.
+  Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.
+  Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.
+  Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.
+  Sed sed nisi sed augue convallis suscipit in sed felis.
+  Aliquam erat volutpat.
+  Nunc fermentum tortor ac porta dapibus.
+  In rutrum ac purus sit amet tempus.`;
 
 const createTimetable = () => {
   const startHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
@@ -35,7 +62,7 @@ const createTimetable = () => {
 
 const createOffers = () => chooseRandomArrayItems(
     OFFERS,
-    createRandomNumber(1, OFFERS.length - 1)
+    createRandomNumber(0, 2)
 );
 
 export const createEvents = (limit) => (
@@ -47,3 +74,29 @@ export const createEvents = (limit) => (
     offers: createOffers(),
   }))
 );
+
+// пример реализации выбранных структур для точек маршрута
+
+const chooseRandomType = (types) => {
+  const keys = Object.keys(types);
+  return types[keys[createRandomNumber(0, keys.length - 1)]];
+};
+
+const chooseRandomPicture = () => `http://picsum.photos/300/150?r=${createRandomNumber()}`;
+
+const createDescription = (template) => chooseRandomArrayItems(template.split(`.`), createRandomNumber(1, 3)).join(`. `);
+
+const createEventFields = () =>({
+  type: chooseRandomType(TYPES),
+  city: CITIES[createRandomNumber(0, CITIES.length - 1)],
+  url: chooseRandomPicture(),
+  offers: createOffers(),
+  description: createDescription(DESCRIPTION_TEMPLATE),
+  date: ``,
+  timetable: createTimetable(),
+  price: createRandomNumber()
+});
+
+const createEvent = (fields) => new Map(Object.entries(fields));
+
+export const createEventsExample = (limit) => [...(new Array(limit)).keys()].map(() => createEvent(createEventFields()));
