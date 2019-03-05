@@ -1,8 +1,22 @@
-import {chooseRandomArrayItems, createRandomNumber} from '../random';
+import {
+  chooseRandomArrayItems,
+  createRandomNumber,
+  getRandomArrayItem,
+  getRandomObjectValue} from '../random';
 
 const HOUR = {
   MIN: 0,
   MAX: 23
+};
+
+const OFFERS_NUMBER = {
+  MIN: 0,
+  MAX: 2
+};
+
+const DESCRIPTION_ITEMS = {
+  MIN: 1,
+  MAX: 3
 };
 
 const TITLES = [
@@ -15,12 +29,38 @@ const TITLES = [
 const ICONS = [`🚕`, `✈️`, `🚗`, `🏨`];
 
 const OFFERS = [
-  `Order UBER`,
-  `Add breakfast`,
-  `Rent a car`,
-  `Select meal`,
-  `Upgrade to business`
+  `Add luggage`,
+  `Switch to comfort class`,
+  `Add meal`,
+  `Choose seats`
 ];
+
+const TYPES = {
+  'Taxi': `🚕`,
+  'Bus': `🚌`,
+  'Train': `🚂`,
+  'Ship': `🛳️`,
+  'Transport': `🚊`,
+  'Drive': `🚗`,
+  'Flight': `✈️`,
+  'Check-in': `🏨`,
+  'Sightseeing': `🏛️`,
+  'Restaurant': `🍴`
+};
+
+const CITIES = [`Istanbul`, `Izmir`, `Ankara`, `Adana`, `Bursa`, `Trabzon`];
+
+const DESCRIPTIONS = [`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`
+`Cras aliquet varius magna, non porta ligula feugiat eget.`
+`Fusce tristique felis at fermentum pharetra.`
+`Aliquam id orci ut lectus varius viverra.`
+`Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`
+`Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`
+`Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`
+`Sed sed nisi sed augue convallis suscipit in sed felis.`
+`Aliquam erat volutpat.`
+`Nunc fermentum tortor ac porta dapibus.`
+`In rutrum ac purus sit amet tempus.`];
 
 const createTimetable = () => {
   const startHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
@@ -35,7 +75,7 @@ const createTimetable = () => {
 
 const createOffers = () => chooseRandomArrayItems(
     OFFERS,
-    createRandomNumber(1, OFFERS.length - 1)
+    createRandomNumber(OFFERS_NUMBER.MIN, OFFERS_NUMBER.MAX)
 );
 
 export const createEvents = (limit) => (
@@ -47,3 +87,28 @@ export const createEvents = (limit) => (
     offers: createOffers(),
   }))
 );
+
+const chooseRandomPicture = () => `http://picsum.photos/300/150?r=${createRandomNumber()}`;
+
+const createDescription = (templateArray) => (
+  chooseRandomArrayItems(templateArray, createRandomNumber(DESCRIPTION_ITEMS.MIN, DESCRIPTION_ITEMS.MAX))
+    .join(`. `)
+);
+
+const createEventFields = () =>({
+  type: getRandomObjectValue(TYPES),
+  city: getRandomArrayItem(CITIES),
+  url: chooseRandomPicture(),
+  offers: createOffers(),
+  description: createDescription(DESCRIPTIONS),
+  date: ``,
+  timetable: createTimetable(),
+  price: createRandomNumber()
+});
+
+const createEvent = () => new Map(Object.entries(createEventFields()));
+
+const createNumberRange = (limit) => [...(new Array(limit)).keys()];
+
+export const createEventsExample = (limit) => createNumberRange(limit).map(() => createEvent());
+
