@@ -1,4 +1,8 @@
-import {chooseRandomArrayItems, createRandomNumber, getRandomArrayItem, getRandomObjectValue} from '../random';
+import {
+  chooseRandomArrayItems,
+  createRandomNumber,
+  getRandomArrayItem,
+  getRandomObjectValue} from '../random';
 
 const HOUR = {
   MIN: 0,
@@ -46,7 +50,7 @@ const TYPES = {
 
 const CITIES = [`Istanbul`, `Izmir`, `Ankara`, `Adana`, `Bursa`, `Trabzon`];
 
-const DESCRIPTION_TEMPLATE = `
+const DESCRIPTIONS = `
   Lorem ipsum dolor sit amet, consectetur adipiscing elit.
   Cras aliquet varius magna, non porta ligula feugiat eget.
   Fusce tristique felis at fermentum pharetra.
@@ -57,7 +61,7 @@ const DESCRIPTION_TEMPLATE = `
   Sed sed nisi sed augue convallis suscipit in sed felis.
   Aliquam erat volutpat.
   Nunc fermentum tortor ac porta dapibus.
-  In rutrum ac purus sit amet tempus.`;
+  In rutrum ac purus sit amet tempus.`.split(`.`);
 
 const createTimetable = () => {
   const startHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
@@ -85,12 +89,10 @@ export const createEvents = (limit) => (
   }))
 );
 
-// пример реализации выбранных структур для точек маршрута
-
 const chooseRandomPicture = () => `http://picsum.photos/300/150?r=${createRandomNumber()}`;
 
-const createDescription = (template) => (
-  chooseRandomArrayItems(template.split(`.`), createRandomNumber(DESCRIPTION_ITEMS.MIN, DESCRIPTION_ITEMS.MAX))
+const createDescription = (templateArray) => (
+  chooseRandomArrayItems(templateArray, createRandomNumber(DESCRIPTION_ITEMS.MIN, DESCRIPTION_ITEMS.MAX))
     .join(`. `)
 );
 
@@ -99,7 +101,7 @@ const createEventFields = () =>({
   city: getRandomArrayItem(CITIES),
   url: chooseRandomPicture(),
   offers: createOffers(),
-  description: createDescription(DESCRIPTION_TEMPLATE),
+  description: createDescription(DESCRIPTIONS),
   date: ``,
   timetable: createTimetable(),
   price: createRandomNumber()
@@ -111,4 +113,3 @@ const createNumberRange = (limit) => [...(new Array(limit)).keys()];
 
 export const createEventsExample = (limit) => createNumberRange(limit).map(() => createEvent());
 
-console.log(createEventsExample(2));
