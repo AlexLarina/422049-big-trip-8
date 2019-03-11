@@ -1,3 +1,4 @@
+import Event from './event';
 import {createFilters} from './mocks/filters';
 import {createEvents} from './mocks/events';
 
@@ -13,4 +14,9 @@ const filtersContainerElement = document.querySelector(`.trip-filter`);
 const eventsContainerElement = document.querySelector(`.trip-day__items`);
 
 filtersContainerElement.innerHTML = createFiltersTemplate(filters);
-eventsContainerElement.innerHTML = createEventsTemplate(events);
+// eventsContainerElement.innerHTML = createEventsTemplate(events);
+
+const firstEvent = new Event(events[0]);
+firstEvent.render(eventsContainerElement);
+
+
