@@ -19,4 +19,3 @@ filtersContainerElement.innerHTML = createFiltersTemplate(filters);
 const firstEvent = new Event(events[0]);
 firstEvent.render(eventsContainerElement);
 
-
