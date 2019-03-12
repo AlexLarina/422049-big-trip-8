@@ -1,28 +1,50 @@
-import {createEventsTemplate} from '../templates/events';
+import createEventTemplate from '../templates/event';
+import createElement from '../create-element';
 
-class Event {
+export default class EventComponent {
   constructor(data) {
-    this._data = data;
+    this._data = data; // @TODO: deep clone
 
     this._element = null;
     this._state = {
       isEdit: false
     };
+
+    this.clickCallback = null;
+    this.handleClick = this.handleClick.bind(this);
   }
 
   get template() {
-    return createEventsTemplate(this._data);
+    return createEventTemplate(this._data);
   }
 
-  render(container) {
-    if (this._element) {
-      container.removeChild(this._element);
-      this._element = null;
-    }
+  createEventListeners() {
+    this._element.addEventListener(`click`, this.handleClick);
+  }
 
-    this._element = this.template;
-    container.appendChild(this._element);
+  removeEventListeners() {
+    this._element.removeEventListener(`click`, this.handleClick);
+  }
+
+  handleClick() {
+    if (this.clickCallback) {
+      this.clickCallback();
+    }
+  }
+
+  onClick(callback) {
+    this.clickCallback = callback;
+  }
+
+  unrender() {
+    this.removeEventListeners();
+    this._element = null;
+  }
+
+  render() {
+    this._element = createElement(this.template);
+    this.createEventListeners();
+
+    return this._element;
   }
 }
-
-

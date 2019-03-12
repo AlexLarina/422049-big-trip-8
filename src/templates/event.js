@@ -17,16 +17,15 @@ const createOffersTemplate = (offers) => (
   </ul>`
 );
 
-export const createEventsTemplate = (events) => (
-  events
-  .map((event) => (
-    `<article class="trip-point">
+
+const createEventTemplate = (event) => (
+  `<article class="trip-point">
       <i class="trip-icon">${event.icon}</i>
       <h3 class="trip-point__title">${event.title}</h3>
       ${createTimetableTemplate(event)}
       <p class="trip-point__price">&euro;&nbsp;${event.price}</p>
       ${createOffersTemplate(event.offers)}
     </article>`
-  ))
-  .join(``)
 );
+
+export default createEventTemplate;
