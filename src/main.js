@@ -17,13 +17,14 @@ filtersContainerElement.innerHTML = createFiltersTemplate(filters);
 
 events.forEach((event) => {
   const componentView = new EventViewComponent(event);
-  eventsContainerElement.appendChild(componentView.render());
-  // console.log(componentView.render());
+  const componentViewElement = componentView.render();
+  eventsContainerElement.appendChild(componentViewElement);
   componentView.onClick(() => {
     const componentEdit = new EventEditComponent(event);
-    // console.log(componentEdit.render());
-    eventsContainerElement.replaceChild(componentEdit.render(), componentView.render());
-    console.log('BOOM!');
+    const componentEditElement = componentEdit.render();
+    eventsContainerElement.replaceChild(componentEditElement, componentViewElement);
+    componentViewElement.unrender();
+    console.log(`BOOM!`);
   });
 });
 
