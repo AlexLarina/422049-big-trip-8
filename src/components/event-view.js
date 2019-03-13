@@ -1,7 +1,7 @@
-import createEventTemplate from '../templates/event';
+import createEventTemplate from '../templates/event-view';
 import createElement from '../create-element';
 
-export default class EventComponent {
+export default class EventViewComponent {
   constructor(data) {
     this._data = data; // @TODO: deep clone
 

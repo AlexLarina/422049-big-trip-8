@@ -1,4 +1,5 @@
-import EventComponent from './components/event';
+import EventViewComponent from './components/event-view';
+import EventEditComponent from './components/event-edit';
 import {createFilters} from './mocks/filters';
 import {createEvents} from './mocks/events';
 
@@ -15,12 +16,14 @@ const eventsContainerElement = document.querySelector(`.trip-day__items`);
 filtersContainerElement.innerHTML = createFiltersTemplate(filters);
 
 events.forEach((event) => {
-  const component = new EventComponent(event);
-
-  component.onClick(() => {
+  const componentView = new EventViewComponent(event);
+  eventsContainerElement.appendChild(componentView.render());
+  // console.log(componentView.render());
+  componentView.onClick(() => {
+    const componentEdit = new EventEditComponent(event);
+    // console.log(componentEdit.render());
+    eventsContainerElement.replaceChild(componentEdit.render(), componentView.render());
     console.log('BOOM!');
   });
-
-  eventsContainerElement.appendChild(component.render());
 });
 
