@@ -29,13 +29,19 @@ events.forEach((event) => {
     componentEditElement = componentEdit.render();
     eventsContainerElement.replaceChild(componentEditElement, componentViewElement);
     componentView.unrender();
+
+    // console.log(componentEditElement.querySelector(`.point__button[type='reset']`));
   });
 
-  componentEdit.onClick(() => {
+  componentEdit.onSubmit(() => {
     componentViewElement = componentView.render();
     eventsContainerElement.replaceChild(componentViewElement, componentEditElement);
     componentEdit.unrender();
   });
 
+  componentEdit.onReset(() => {
+    eventsContainerElement.removeChild(componentEditElement);
+    componentEdit.unrender();
+  });
 });
 

@@ -5,7 +5,9 @@ export default class EventEditComponent {
   constructor(data) {
     this._data = data;
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleReset = this.handleReset.bind(this);
+
     this._element = null;
   }
 
@@ -14,24 +16,37 @@ export default class EventEditComponent {
   }
 
   createEventListeners() {
-    this._element.addEventListener(`click`, this.handleClick);
+    this._element.querySelector(`.point__button--save`).addEventListener(`click`, this.handleSubmit);
+    this._element.querySelector(`.point__button[type='reset']`).addEventListener(`click`, this.handleReset);
   }
 
   removeEventListeners() {
-    this._element.removeEventListener(`click`, this.handleClick);
+    this._element.querySelector(`.point__button--save`).removeEventListener(`click`, this.handleSubmit);
+    this._element.querySelector(`.point__button[type='reset']`).removeEventListener(`click`, this.handleReset);
   }
 
-  handleClick() {
-    if (this.clickCallback) {
-      this.clickCallback();
+  handleSubmit() {
+    if (this.submitCallback) {
+      this.submitCallback();
     }
   }
 
-  onClick(callback) {
-    this.clickCallback = callback;
+  handleReset() {
+    if (this.resetCallback) {
+      this.resetCallback();
+    }
+  }
+
+  onSubmit(callback) {
+    this.submitCallback = callback;
+  }
+
+  onReset(callback) {
+    this.resetCallback = callback;
   }
 
   unrender() {
+    // this.removeEventListeners();
     this._element = null;
   }
 

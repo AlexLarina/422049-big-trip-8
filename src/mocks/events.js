@@ -88,6 +88,7 @@ const createDescription = (templateArray) => (
     .join(`. `)
 );
 
+
 const createEventFields = () => ({
   type: getRandomObjectValue(TYPES),
   city: getRandomArrayItem(CITIES),
@@ -97,16 +98,9 @@ const createEventFields = () => ({
   date: ``,
   timetable: createTimetable(),
   price: createRandomNumber(),
-  types: TYPES.slice(),
-  getTypes() {
-    return TYPES;
-  },
-  getTransportTypes() {
-    return TRANSPORT;
-  },
-  getLocalTypes() {
-    return LOCALS;
-  }
+  transportTypes: TRANSPORT.slice(),
+  localTypes: LOCALS.slice(),
+  types: Object.assign({}, TYPES)
 });
 
 const createEvent = () => new Map(Object.entries(createEventFields()));

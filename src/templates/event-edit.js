@@ -7,23 +7,21 @@ const createDateTemplate = () => (
   </label>`
 );
 
-const createWayGroupTemplate = (event, groupType) => (
-  event.get(groupType)()
-    .map((type) => (
+const createWayGroupTemplate = (event, iconTypes, iconGroup) => (
+  event.get(iconGroup)
+    .map((icon) => (
       `<input
         class="travel-way__select-input visually-hidden"
         type="radio"
-        id="travel-way-${type.toLowerCase()}"
-        name="travel-way" value="${type.toLowerCase()}"
+        id="travel-way-${icon.toLowerCase()}"
+        name="travel-way" value="${icon.toLowerCase()}"
       >
-      <label class="travel-way__select-label" for="travel-way-${type.toLowerCase()}">
-        ${event.icon} ${type.toLowerCase()}
+      <label class="travel-way__select-label" for="travel-way-${icon.toLowerCase()}">
+      ${event.get(iconTypes)[icon]} ${icon.toLowerCase()}
       </label>`
     ))
     .join(``)
 );
-
-// event.get(`getTypes`)()[type]
 
 const createTravelWayTemplate = (event) => (
   `<div class="travel-way">
@@ -33,11 +31,11 @@ const createTravelWayTemplate = (event) => (
 
   <div class="travel-way__select">
     <div class="travel-way__select-group">
-      ${createWayGroupTemplate(event, `getTransportTypes`)}
+      ${createWayGroupTemplate(event, `types`, `transportTypes`)}
     </div>
 
     <div class="travel-way__select-group">
-      ${createWayGroupTemplate(event, `getLocalTypes`)}
+      ${createWayGroupTemplate(event, `types`, `localTypes`)}
     </div>
   </div>
 </div>`
