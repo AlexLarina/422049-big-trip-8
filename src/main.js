@@ -15,16 +15,27 @@ const eventsContainerElement = document.querySelector(`.trip-day__items`);
 
 filtersContainerElement.innerHTML = createFiltersTemplate(filters);
 
+
 events.forEach((event) => {
   const componentView = new EventViewComponent(event);
-  const componentViewElement = componentView.render();
+  const componentEdit = new EventEditComponent(event);
+
+  let componentViewElement = componentView.render();
+  let componentEditElement;
+
   eventsContainerElement.appendChild(componentViewElement);
+
   componentView.onClick(() => {
-    const componentEdit = new EventEditComponent(event);
-    const componentEditElement = componentEdit.render();
+    componentEditElement = componentEdit.render();
     eventsContainerElement.replaceChild(componentEditElement, componentViewElement);
-    componentViewElement.unrender();
-    console.log(`BOOM!`);
+    componentView.unrender();
   });
+
+  componentEdit.onClick(() => {
+    componentViewElement = componentView.render();
+    eventsContainerElement.replaceChild(componentViewElement, componentEditElement);
+    componentEdit.unrender();
+  });
+
 });
 

@@ -1,3 +1,5 @@
+const convertOfferName = (offer) => offer.split(` `).map((word) => word.toLowerCase()).join(`-`);
+
 const createDateTemplate = () => (
   `<label class="point__date">
     choose day
@@ -15,12 +17,13 @@ const createWayGroupTemplate = (event, groupType) => (
         name="travel-way" value="${type.toLowerCase()}"
       >
       <label class="travel-way__select-label" for="travel-way-${type.toLowerCase()}">
-        ${event.get(`getTypes`)()[type]} ${type.toLowerCase()}
+        ${event.icon} ${type.toLowerCase()}
       </label>`
     ))
     .join(``)
 );
 
+// event.get(`getTypes`)()[type]
 
 const createTravelWayTemplate = (event) => (
   `<div class="travel-way">
@@ -71,8 +74,6 @@ const createPriceTemplate = (event) => (
     <input class="point__input" type="text" value="${event.get(`price`)}" name="price">
   </label>`
 );
-
-const convertOfferName = (offer) => offer.split(` `).map((word) => word.toLowerCase()).join(`-`);
 
 const createOffersTemplate = (event) => (
   `<section class="point__offers">
