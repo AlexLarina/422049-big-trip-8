@@ -88,7 +88,7 @@ const createDescription = (templateArray) => (
     .join(`. `)
 );
 
-const createEventFields = () =>({
+const createEventFields = () => ({
   type: getRandomObjectValue(TYPES),
   city: getRandomArrayItem(CITIES),
   url: chooseRandomPicture(),
@@ -97,6 +97,7 @@ const createEventFields = () =>({
   date: ``,
   timetable: createTimetable(),
   price: createRandomNumber(),
+  types: TYPES.slice(),
   getTypes() {
     return TYPES;
   },
