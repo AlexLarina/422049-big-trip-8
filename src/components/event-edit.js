@@ -16,16 +16,17 @@ export default class EventEditComponent {
   }
 
   createEventListeners() {
-    this._element.querySelector(`.point__button--save`).addEventListener(`click`, this.handleSubmit);
-    this._element.querySelector(`.point__button[type='reset']`).addEventListener(`click`, this.handleReset);
+    this._element.querySelector(`.point form`).addEventListener(`submit`, this.handleSubmit);
+    this._element.querySelector(`.point form`).addEventListener(`reset`, this.handleReset);
   }
 
   removeEventListeners() {
-    this._element.querySelector(`.point__button--save`).removeEventListener(`click`, this.handleSubmit);
-    this._element.querySelector(`.point__button[type='reset']`).removeEventListener(`click`, this.handleReset);
+    this._element.querySelector(`.point form`).removeEventListener(`submit`, this.handleSubmit);
+    this._element.querySelector(`.point form`).removeEventListener(`reset`, this.handleReset);
   }
 
-  handleSubmit() {
+  handleSubmit(e) {
+    e.preventDefault();
     if (this.submitCallback) {
       this.submitCallback();
     }
