@@ -19,21 +19,15 @@ const DESCRIPTION_ITEMS = {
   MAX: 3
 };
 
-const TITLES = [
-  `Taxi to Airport`,
-  `Flight to Geneva`,
-  `Drive to Chamonix`,
-  `Check into a hotel`
-];
-
-const ICONS = [`🚕`, `✈️`, `🚗`, `🏨`];
-
 const OFFERS = [
   `Add luggage`,
   `Switch to comfort class`,
   `Add meal`,
   `Choose seats`
 ];
+
+const TRANSPORT = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`];
+const LOCALS = [`Check-in`, `Sightseeing`, `Restaurant`];
 
 const TYPES = {
   'Taxi': `🚕`,
@@ -48,19 +42,28 @@ const TYPES = {
   'Restaurant': `🍴`
 };
 
-const CITIES = [`Istanbul`, `Izmir`, `Ankara`, `Adana`, `Bursa`, `Trabzon`];
+const CITIES = [
+  `Istanbul`,
+  `Izmir`,
+  `Ankara`,
+  `Adana`,
+  `Bursa`,
+  `Trabzon`
+];
 
-const DESCRIPTIONS = [`Lorem ipsum dolor sit amet, consectetur adipiscing elit.`
-`Cras aliquet varius magna, non porta ligula feugiat eget.`
-`Fusce tristique felis at fermentum pharetra.`
-`Aliquam id orci ut lectus varius viverra.`
-`Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`
-`Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`
-`Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`
-`Sed sed nisi sed augue convallis suscipit in sed felis.`
-`Aliquam erat volutpat.`
-`Nunc fermentum tortor ac porta dapibus.`
-`In rutrum ac purus sit amet tempus.`];
+const DESCRIPTIONS = [
+  `Lorem ipsum dolor sit amet, consectetur adipiscing elit.`,
+  `Cras aliquet varius magna, non porta ligula feugiat eget.`,
+  `Fusce tristique felis at fermentum pharetra.`,
+  `Aliquam id orci ut lectus varius viverra.`,
+  `Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.`,
+  `Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.`,
+  `Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.`,
+  `Sed sed nisi sed augue convallis suscipit in sed felis.`,
+  `Aliquam erat volutpat.`,
+  `Nunc fermentum tortor ac porta dapibus.`,
+  `In rutrum ac purus sit amet tempus.`
+];
 
 const createTimetable = () => {
   const startHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
@@ -78,16 +81,6 @@ const createOffers = () => chooseRandomArrayItems(
     createRandomNumber(OFFERS_NUMBER.MIN, OFFERS_NUMBER.MAX)
 );
 
-export const createEvents = (limit) => (
-  [...(new Array(limit)).keys()].map((_, index) => ({
-    title: TITLES[index],
-    icon: ICONS[index],
-    timetable: createTimetable(),
-    price: createRandomNumber(),
-    offers: createOffers(),
-  }))
-);
-
 const chooseRandomPicture = () => `http://picsum.photos/300/150?r=${createRandomNumber()}`;
 
 const createDescription = (templateArray) => (
@@ -95,7 +88,8 @@ const createDescription = (templateArray) => (
     .join(`. `)
 );
 
-const createEventFields = () =>({
+
+const createEventFields = () => ({
   type: getRandomObjectValue(TYPES),
   city: getRandomArrayItem(CITIES),
   url: chooseRandomPicture(),
@@ -103,12 +97,15 @@ const createEventFields = () =>({
   description: createDescription(DESCRIPTIONS),
   date: ``,
   timetable: createTimetable(),
-  price: createRandomNumber()
+  price: createRandomNumber(),
+  transportTypes: TRANSPORT.slice(),
+  localTypes: LOCALS.slice(),
+  types: Object.assign({}, TYPES)
 });
 
 const createEvent = () => new Map(Object.entries(createEventFields()));
 
 const createNumberRange = (limit) => [...(new Array(limit)).keys()];
 
-export const createEventsExample = (limit) => createNumberRange(limit).map(() => createEvent());
+export const createEvents = (limit) => createNumberRange(limit).map(() => createEvent());
 

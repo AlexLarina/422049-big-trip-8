@@ -1,7 +1,7 @@
 const createTimetableTemplate = (event) => (
   `<p class="trip-point__schedule">
-    <span class="trip-point__timetable">${event.timetable.start}&nbsp;&mdash; ${event.timetable.end}</span>
-    <span class="trip-point__duration">${event.timetable.duration}h 00m</span>
+    <span class="trip-point__timetable">${event.get(`timetable`).start}&nbsp;&mdash; ${event.get(`timetable`).end}</span>
+    <span class="trip-point__duration">${event.get(`timetable`).duration}h 00m</span>
   </p>`
 );
 
@@ -17,13 +17,14 @@ const createOffersTemplate = (offers) => (
   </ul>`
 );
 
+
 const createEventTemplate = (event) => (
   `<article class="trip-point">
-      <i class="trip-icon">${event.icon}</i>
-      <h3 class="trip-point__title">${event.title}</h3>
+      <i class="trip-icon">${event.get(`type`)}</i>
+      <h3 class="trip-point__title">${event.get(`city`)}</h3>
       ${createTimetableTemplate(event)}
-      <p class="trip-point__price">&euro;&nbsp;${event.price}</p>
-      ${createOffersTemplate(event.offers)}
+      <p class="trip-point__price">&euro;&nbsp;${event.get(`price`)}</p>
+      ${createOffersTemplate(event.get(`offers`))}
     </article>`
 );
 
