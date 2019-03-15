@@ -29,8 +29,6 @@ events.forEach((event) => {
     componentEditElement = componentEdit.render();
     eventsContainerElement.replaceChild(componentEditElement, componentViewElement);
     componentView.unrender();
-
-    // console.log(componentEditElement.querySelector(`.point__button[type='reset']`));
   });
 
   componentEdit.onSubmit(() => {

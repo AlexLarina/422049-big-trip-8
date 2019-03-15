@@ -47,7 +47,7 @@ export default class EventEditComponent {
   }
 
   unrender() {
-    // this.removeEventListeners();
+    this.removeEventListeners();
     this._element = null;
   }
 
