@@ -3,8 +3,7 @@ import createEventEditTemplate from '../templates/event-edit';
 
 export default class EventEditComponent extends Component {
   constructor(data) {
-    super();
-    this._data = data;
+    super(data);
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReset = this.handleReset.bind(this);

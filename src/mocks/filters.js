@@ -1,4 +1,4 @@
-import {createRandomNumber} from '../random';
+import {createRandomNumber} from '../../public/lib/random';
 
 const NAMES = [`everything`, `future`, `past`];
 
