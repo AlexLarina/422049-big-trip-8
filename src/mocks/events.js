@@ -2,7 +2,7 @@ import {
   chooseRandomArrayItems,
   createRandomNumber,
   getRandomArrayItem,
-  getRandomObjectValue} from '../../public/lib/random';
+  getRandomObjectValue} from '../lib/random';
 
 const MIN_HOUR = 0;
 const MAX_HOUR = 23;

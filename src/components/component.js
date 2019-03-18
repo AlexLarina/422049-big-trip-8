@@ -1,4 +1,4 @@
-import createElement from '../../public/lib/create-element';
+import createElement from '../lib/create-element';
 
 export default class Component {
   constructor(data) {
