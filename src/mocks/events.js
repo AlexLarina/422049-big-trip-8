@@ -2,22 +2,16 @@ import {
   chooseRandomArrayItems,
   createRandomNumber,
   getRandomArrayItem,
-  getRandomObjectValue} from '../random';
+  getRandomObjectValue} from '../lib/random';
 
-const HOUR = {
-  MIN: 0,
-  MAX: 23
-};
+const MIN_HOUR = 0;
+const MAX_HOUR = 23;
 
-const OFFERS_NUMBER = {
-  MIN: 0,
-  MAX: 2
-};
+const MIN_OFFERS = 0;
+const MAX_OFFERS = 2;
 
-const DESCRIPTION_ITEMS = {
-  MIN: 1,
-  MAX: 3
-};
+const MIN_DESCRIPTION_ITEMS = 1;
+const MAX_DESCRIPTION_ITEMS = 3;
 
 const OFFERS = [
   `Add luggage`,
@@ -66,8 +60,8 @@ const DESCRIPTIONS = [
 ];
 
 const createTimetable = () => {
-  const startHour = createRandomNumber(HOUR.MIN, HOUR.MAX);
-  const endHour = createRandomNumber(startHour + 1, HOUR.MAX);
+  const startHour = createRandomNumber(MIN_HOUR, MAX_HOUR);
+  const endHour = createRandomNumber(startHour + 1, MAX_HOUR);
 
   return ({
     start: `${startHour}:00`,
@@ -78,16 +72,15 @@ const createTimetable = () => {
 
 const createOffers = () => chooseRandomArrayItems(
     OFFERS,
-    createRandomNumber(OFFERS_NUMBER.MIN, OFFERS_NUMBER.MAX)
+    createRandomNumber(MIN_OFFERS, MAX_OFFERS)
 );
 
 const chooseRandomPicture = () => `http://picsum.photos/300/150?r=${createRandomNumber()}`;
 
 const createDescription = (templateArray) => (
-  chooseRandomArrayItems(templateArray, createRandomNumber(DESCRIPTION_ITEMS.MIN, DESCRIPTION_ITEMS.MAX))
+  chooseRandomArrayItems(templateArray, createRandomNumber(MIN_DESCRIPTION_ITEMS, MAX_DESCRIPTION_ITEMS))
     .join(`. `)
 );
-
 
 const createEventFields = () => ({
   type: getRandomObjectValue(TYPES),
