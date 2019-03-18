@@ -15,7 +15,6 @@ const eventsContainerElement = document.querySelector(`.trip-day__items`);
 
 filtersContainerElement.innerHTML = createFiltersTemplate(filters);
 
-
 events.forEach((event) => {
   const componentView = new EventViewComponent(event);
   const componentEdit = new EventEditComponent(event);

@@ -3,8 +3,7 @@ import createEventTemplate from '../templates/event-view';
 
 export default class EventViewComponent extends Component {
   constructor(data) {
-    super();
-    this._data = data; // @TODO: deep clone
+    super(data);
 
     this._state = {
       isEdit: false
