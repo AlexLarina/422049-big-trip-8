@@ -1,11 +1,11 @@
+import Component from './component';
 import createEventTemplate from '../templates/event-view';
-import createElement from '../create-element';
 
-export default class EventViewComponent {
+export default class EventViewComponent extends Component {
   constructor(data) {
+    super();
     this._data = data; // @TODO: deep clone
 
-    this._element = null;
     this._state = {
       isEdit: false
     };
@@ -34,17 +34,5 @@ export default class EventViewComponent {
 
   onClick(callback) {
     this.clickCallback = callback;
-  }
-
-  unrender() {
-    this.removeEventListeners();
-    this._element = null;
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.createEventListeners();
-
-    return this._element;
   }
 }

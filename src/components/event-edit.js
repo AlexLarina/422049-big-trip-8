@@ -1,14 +1,13 @@
+import Component from './component';
 import createEventEditTemplate from '../templates/event-edit';
-import createElement from '../create-element';
 
-export default class EventEditComponent {
+export default class EventEditComponent extends Component {
   constructor(data) {
+    super();
     this._data = data;
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReset = this.handleReset.bind(this);
-
-    this._element = null;
   }
 
   get template() {
@@ -45,17 +44,4 @@ export default class EventEditComponent {
   onReset(callback) {
     this.resetCallback = callback;
   }
-
-  unrender() {
-    this.removeEventListeners();
-    this._element = null;
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.createEventListeners();
-
-    return this._element;
-  }
-
 }
