@@ -33,4 +33,8 @@ export default class EventViewComponent extends Component {
   onClick(callback) {
     this.clickCallback = callback;
   }
+
+  update(data) {
+    this._data = data;
+  }
 }

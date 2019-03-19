@@ -30,10 +30,14 @@ events.forEach((event) => {
     componentView.unrender();
   });
 
-  componentEdit.onSubmit(() => {
+  componentEdit.onSubmit((newObject) => {
+    // event.price = newObject.price;
+    componentView.update(newObject);
+
     componentViewElement = componentView.render();
     eventsContainerElement.replaceChild(componentViewElement, componentEditElement);
     componentEdit.unrender();
+
   });
 
   componentEdit.onReset(() => {

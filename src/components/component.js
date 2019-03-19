@@ -32,4 +32,8 @@ export default class Component {
     this.removeEventListeners();
     this._element = null;
   }
+
+  update() {
+
+  }
 }
