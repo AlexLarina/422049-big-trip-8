@@ -1,5 +1,6 @@
 import Component from './component';
 import createEventEditTemplate from '../templates/event-edit';
+import { createEmpty as createEmptyEvent } from '../models/event';
 
 export default class EventEditComponent extends Component {
   constructor(data) {
@@ -12,42 +13,25 @@ export default class EventEditComponent extends Component {
     this._onChangeCity = this._onChangeCity.bind(this);
   }
 
-  _processForm(formData) {
-    const entry = {
-      type: `🚕`,
-      city: ``,
-      url: ``,
-      offers: [`Add luggage`, `Switch to comfort class`, `Add meal`],
-      description: ``,
-      date: ``,
-      timetable: ``,
-      price: ``,
-      transportTypes: [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`],
-      localTypes: [`Check-in`, `Sightseeing`, `Restaurant`],
-      types: {
-        'Taxi': `🚕`,
-        'Bus': `🚌`,
-        'Train': `🚂`,
-        'Ship': `🛳️`,
-        'Transport': `🚊`,
-        'Drive': `🚗`,
-        'Flight': `✈️`,
-        'Check-in': `🏨`,
-        'Sightseeing': `🏛️`,
-        'Restaurant': `🍴`
-      }
+  static createMapper(data) {
+    return {
+      destination: (value) => data.set(`city`, value),
+      price: (value) => data.set(`price`, value),
+      time: (value) => data.set(`timetable`, value)
     };
+  }
 
-    const eventEditMapper = EventEditComponent.createMapper(entry);
+  _processForm(formData) {
+    const event = createEmptyEvent();
+    const mapper = EventEditComponent.createMapper(event);
 
-    for (const pair of formData.entries()) {
-      const [property, value] = pair;
-      if (eventEditMapper[property]) {
-        eventEditMapper[property](value);
+    Array.from(formData.entries()).forEach(([property, value]) => {
+      if (mapper[property]) {
+        mapper[property](value);
       }
-    }
+    })
 
-    return new Map(Object.entries(entry));
+    return event;
   }
 
   _onChangePrice(evt) {
@@ -81,12 +65,12 @@ export default class EventEditComponent extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(this._element.querySelector(`.point form`));
-    const newData = this._processForm(formData);
+    const eventModel = this._processForm(formData);
 
-    this.update(newData);
+    this.update(eventModel);
 
     if (this.submitCallback) {
-      this.submitCallback(newData);
+      this.submitCallback(eventModel);
     }
   }
 
@@ -104,16 +88,5 @@ export default class EventEditComponent extends Component {
     this.resetCallback = callback;
   }
 
-  update(data) {
-    this._data = data;
-  }
-
-  static createMapper(data) {
-    return {
-      destination: (value) => (data.city = value),
-      price: (value) => (data.price = value),
-      time: (value) => (data.timetable = value)
-    };
-  }
 
 }

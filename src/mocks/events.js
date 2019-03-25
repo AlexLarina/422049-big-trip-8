@@ -101,4 +101,3 @@ const createEvent = () => new Map(Object.entries(createEventFields()));
 const createNumberRange = (limit) => [...(new Array(limit)).keys()];
 
 export const createEvents = (limit) => createNumberRange(limit).map(() => createEvent());
-
