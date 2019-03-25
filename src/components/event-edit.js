@@ -42,14 +42,10 @@ export default class EventEditComponent extends Component {
 
     for (const pair of formData.entries()) {
       const [property, value] = pair;
-      // eventEditMapper[property] = value;
-      //console.log(eventEditMapper[property]);
-      //console.log(entry.eventEditMapper[property]);
-      entry.eventEditMapper[property] = value;
-      //console.log(eventEditMapper[property]);
+      if (eventEditMapper[property]) {
+        eventEditMapper[property](value);
+      }
     }
-
-    console.log(entry);
 
     return new Map(Object.entries(entry));
   }
@@ -60,7 +56,6 @@ export default class EventEditComponent extends Component {
 
   _onChangeCity(evt) {
     this._newCity = evt.target.value;
-    //console.log(this._newCity);
   }
 
   get template() {
@@ -86,19 +81,11 @@ export default class EventEditComponent extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(this._element.querySelector(`.point form`));
-
-    //formData.set(`price`, this._newPrice);
-    //formData.set(`destination`, this._newCity);
-
-    //console.log(this._newCity);
-
     const newData = this._processForm(formData);
 
-    console.log(newData);
     this.update(newData);
+
     if (this.submitCallback) {
-      // const formData = new FormData(this._element.querySelector(`.point form`));
-      // console.log(formData);
       this.submitCallback(newData);
     }
   }
@@ -121,11 +108,11 @@ export default class EventEditComponent extends Component {
     this._data = data;
   }
 
-  static createMapper(target) {
+  static createMapper(data) {
     return {
-      day: target.date,
-      destination: target.city,
-      price: target.price
+      destination: (value) => (data.city = value),
+      price: (value) => (data.price = value),
+      time: (value) => (data.timetable = value)
     };
   }
 
