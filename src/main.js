@@ -1,48 +1,59 @@
 import EventViewComponent from './components/event-view';
 import EventEditComponent from './components/event-edit';
+import TripDayComponent from './components/trip-day';
+
 import {createFilters} from './mocks/filters';
 import {createEvents} from './mocks/events';
+import {createDays} from './mocks/days';
 
 import {createFiltersTemplate} from './templates/filters';
 
-const EVENTS_LIMIT = 4;
+const EVENTS_LIMIT = 2;
+const DAYS_LIMIT = 2;
 
 const filters = createFilters();
-const events = createEvents(EVENTS_LIMIT);
+const days = createDays(DAYS_LIMIT);
+
+const tripPointsContainer = document.querySelector(`.trip-points`);
 
 const filtersContainerElement = document.querySelector(`.trip-filter`);
-const eventsContainerElement = document.querySelector(`.trip-day__items`);
-
 filtersContainerElement.innerHTML = createFiltersTemplate(filters);
 
-events.forEach((event) => {
-  const componentView = new EventViewComponent(event);
-  const componentEdit = new EventEditComponent(event);
+days.forEach((day) => {
+  const tripDay = new TripDayComponent(day);
+  const tripDayElement = tripDay.render();
+  tripPointsContainer.appendChild(tripDayElement);
 
-  let componentViewElement = componentView.render();
-  let componentEditElement;
-
-  eventsContainerElement.appendChild(componentViewElement);
-
-  componentView.onClick(() => {
-    componentEditElement = componentEdit.render();
-    eventsContainerElement.replaceChild(componentEditElement, componentViewElement);
-    componentView.unrender();
+  tripDay.onClick(() =>{
+    console.log(`data clicked!`);
   });
 
-  componentEdit.onSubmit((newObject) => {
-    // event.price = newObject.price;
-    componentView.update(newObject);
+  const eventsContainerElement = tripDayElement.querySelector(`.trip-day__items`);
+  let events = createEvents(EVENTS_LIMIT);
 
-    componentViewElement = componentView.render();
-    eventsContainerElement.replaceChild(componentViewElement, componentEditElement);
-    componentEdit.unrender();
+  events.forEach((event) => {
+    const componentView = new EventViewComponent(event);
+    const componentEdit = new EventEditComponent(event);
 
-  });
+    let componentViewElement = componentView.render();
+    let componentEditElement;
 
-  componentEdit.onReset(() => {
-    eventsContainerElement.removeChild(componentEditElement);
-    componentEdit.unrender();
+    eventsContainerElement.appendChild(componentViewElement);
+
+    componentView.onClick(() => {
+      componentEditElement = componentEdit.render();
+      eventsContainerElement.replaceChild(componentEditElement, componentViewElement);
+      componentView.unrender();
+    });
+
+    componentEdit.onSubmit((newObject) => {
+      componentView.update(newObject);
+
+      componentViewElement = componentView.render();
+      eventsContainerElement.replaceChild(componentViewElement, componentEditElement);
+      componentEdit.unrender();
+
+    });
   });
 });
 

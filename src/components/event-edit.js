@@ -1,6 +1,6 @@
 import Component from './component';
 import createEventEditTemplate from '../templates/event-edit';
-import { createEmpty as createEmptyEvent } from '../models/event';
+import {createEmpty as createEmptyEvent} from '../models/event';
 
 export default class EventEditComponent extends Component {
   constructor(data) {
@@ -29,7 +29,7 @@ export default class EventEditComponent extends Component {
       if (mapper[property]) {
         mapper[property](value);
       }
-    })
+    });
 
     return event;
   }
