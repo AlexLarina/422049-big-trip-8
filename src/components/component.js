@@ -11,6 +11,10 @@ export default class Component {
     this._element = null;
   }
 
+  get element() {
+    return this._element;
+  }
+
   get template() {
     throw new Error(`Template should be defined!`);
   }

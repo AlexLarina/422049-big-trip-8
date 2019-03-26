@@ -100,5 +100,16 @@ export default class EventEditComponent extends Component {
     this.resetCallback = callback;
   }
 
+  render() {
+    const element = super.render();
+
+    flatpickr(element.querySelector(`.point__time`), {
+      mode: `range`,
+      enableTime: true,
+      noCalendar: true
+    });
+
+    return element;
+  }
 
 }

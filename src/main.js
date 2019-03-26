@@ -1,4 +1,4 @@
-import '../node_modules/flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/flatpickr.min.css';
 
 import EventViewComponent from './components/event-view';
 import EventEditComponent from './components/event-edit';
