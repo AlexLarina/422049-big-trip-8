@@ -25,9 +25,10 @@ export default class TripDayComponent extends Component {
     if (this.clickCallback) {
       // this.clickCallback();
       flatpickr(`.trip-day__title`, {
-        altInput: true,
-        altFormat: `j F`,
-        dateFormat: `j F`
+        // altInput: true,
+        // altFormat: `j F`,
+        // dateFormat: `j F`,
+        // inline: true
       });
     }
   }

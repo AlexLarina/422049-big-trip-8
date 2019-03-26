@@ -1,6 +1,7 @@
 import Component from './component';
 import createEventEditTemplate from '../templates/event-edit';
 import {createEmpty as createEmptyEvent} from '../models/event';
+import flatpickr from 'flatpickr';
 
 export default class EventEditComponent extends Component {
   constructor(data) {
@@ -11,6 +12,7 @@ export default class EventEditComponent extends Component {
 
     this._onChangePrice = this._onChangePrice.bind(this);
     this._onChangeCity = this._onChangeCity.bind(this);
+    this._onChangeTime = this._onChangeTime.bind(this);
   }
 
   static createMapper(data) {
@@ -42,6 +44,14 @@ export default class EventEditComponent extends Component {
     this._newCity = evt.target.value;
   }
 
+  _onChangeTime() {
+    flatpickr(`.point__time`, {
+      inline: true,
+      enableTime: true,
+      noCalendar: true
+    });
+  }
+
   get template() {
     return createEventEditTemplate(this._data);
   }
@@ -52,6 +62,7 @@ export default class EventEditComponent extends Component {
 
     this._element.querySelector(`.point__price .point__input`).addEventListener(`change`, this._onChangePrice);
     this._element.querySelector(`.point__destination-input`).addEventListener(`change`, this._onChangeCity);
+    this._element.querySelector(`.point__time .point__input`).addEventListener(`click`, this._onChangeTime);
   }
 
   removeEventListeners() {
@@ -60,6 +71,7 @@ export default class EventEditComponent extends Component {
 
     this._element.querySelector(`.point__price .point__input`).removeEventListener(`change`, this._onChangePrice);
     this._element.querySelector(`.point__destination-input`).removeEventListener(`change`, this._onChangeCity);
+    this._element.querySelector(`.point__time .point__input`).removeEventListener(`click`, this._onChangeTime);
   }
 
   handleSubmit(e) {
