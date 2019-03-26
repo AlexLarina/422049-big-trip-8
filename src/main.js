@@ -1,3 +1,6 @@
+import 'flatpickr/flatpickr.min.css';
+import 'flatpickr/dist/flatpickr.dark.min.css';
+
 import EventViewComponent from './components/event-view';
 import EventEditComponent from './components/event-edit';
 import TripDayComponent from './components/trip-day';
