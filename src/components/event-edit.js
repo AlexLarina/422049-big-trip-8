@@ -112,4 +112,9 @@ export default class EventEditComponent extends Component {
     return element;
   }
 
+  unrender() {
+    flatpickr(this._element.querySelector(`.myClass`)).destroy();
+    super.unrender();
+  }
+
 }
