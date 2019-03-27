@@ -4,6 +4,7 @@ import createEventTemplate from '../templates/event-view';
 export default class EventViewComponent extends Component {
   constructor(data) {
     super(data);
+
     this._state = {
       isEdit: false
     };
@@ -32,5 +33,9 @@ export default class EventViewComponent extends Component {
 
   onClick(callback) {
     this.clickCallback = callback;
+  }
+
+  update(data) {
+    this._data = data;
   }
 }
