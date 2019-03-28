@@ -1,5 +1,3 @@
-import {createRandomNumber} from '../lib/random';
-
 const NAMES = [`everything`, `future`, `past`];
 
 const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);

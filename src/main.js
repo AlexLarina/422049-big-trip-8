@@ -4,6 +4,7 @@ import EventViewComponent from './components/event-view';
 import EventEditComponent from './components/event-edit';
 import TripDayComponent from './components/trip-day';
 import FilterComponent from './components/filter';
+import StatsComponent from './components/statistics';
 
 import {createFilters} from './mocks/filters';
 import {createEvents} from './mocks/events';
@@ -12,12 +13,35 @@ import {createDays} from './mocks/days';
 
 const EVENTS_LIMIT = 2;
 const DAYS_LIMIT = 7;
+const STAT_ITEM_NAMES = [`money`, `transport`, `time-spend`];
 
 const filters = createFilters();
 const days = createDays(DAYS_LIMIT);
 
 const tripPointsContainerElement = document.querySelector(`.trip-points`);
 const filtersContainerElement = document.querySelector(`.trip-filter`);
+const mainElement = document.querySelector(`.main`);
+
+// STATS
+
+const stats = new StatsComponent(STAT_ITEM_NAMES);
+const statsElement = stats.render();
+
+const navStatsElement = document.querySelector(`.trip-controls__menus a:nth-child(2)`);
+const handleStatsClick = (evt) => {
+  evt.preventDefault();
+
+  mainElement.classList.toggle(`visually-hidden`);
+  statsElement.classList.toggle(`visually-hidden`);
+
+  navStatsElement.classList.add(`view-switch__item--active`);
+};
+
+navStatsElement.addEventListener(`click`, handleStatsClick);
+
+document.body.appendChild(statsElement);
+
+// FILTERS
 
 const filterateDays = (attribute, daysData) => {
   let filteredDays;
