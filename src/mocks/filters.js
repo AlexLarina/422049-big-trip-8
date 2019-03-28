@@ -11,7 +11,7 @@ export const createFilters = () => {
     description: capitalize(name)
   }));
 
-  filters[createRandomNumber(0, filters.length - 1)].isSelected = true;
+  filters[0].isSelected = true;
 
   return filters;
 };

@@ -18,17 +18,31 @@ const days = createDays(DAYS_LIMIT);
 
 const tripPointsContainerElement = document.querySelector(`.trip-points`);
 const filtersContainerElement = document.querySelector(`.trip-filter`);
-const TripPointContainer = document.querySelector(`trip-points`);
 
 const filterateDays = (attribute, daysData) => {
   let filteredDays;
   switch (attribute) {
     case `filter-everything`:
+      filteredDays = daysData;
+      filteredDays.map((it, index) => {
+        it[`day_number`] = index + 1;
+      });
       break;
     case `filter-future`:
+      filteredDays = daysData
+        .filter((it) => it[`date-timestamp`] > Date.now());
+
+      filteredDays.map((it, index) => {
+        it[`day_number`] = index + 1;
+      });
       break;
     case `filter-past`:
-      filteredDays = daysData.filter((it) => it[`date-timestamp`] < Date.now());
+      filteredDays = daysData
+        .filter((it) => it[`date-timestamp`] < Date.now());
+      filteredDays.map((it, index) => {
+        it[`day_number`] = index + 1;
+      });
+      break;
   }
 
   return filteredDays;
@@ -86,8 +100,8 @@ const removeAllChildNodes = (parentNode) => {
   }
 };
 
-renderDays(days);
 
+renderDays(days);
 
 filters.forEach((filter) => {
   const filterItem = new FilterComponent(filter);
@@ -96,7 +110,7 @@ filters.forEach((filter) => {
 
   filterItem.onFilterClick((filterAttribute) => {
     let filteredDays = filterateDays(filterAttribute, days);
-    removeAllChildNodes(TripPointContainer);
+    removeAllChildNodes(tripPointsContainerElement);
     renderDays(filteredDays);
   });
 });
