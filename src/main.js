@@ -3,7 +3,7 @@ import 'flatpickr/dist/flatpickr.min.css';
 import EventViewComponent from './components/event-view';
 import EventEditComponent from './components/event-edit';
 import TripDayComponent from './components/trip-day';
-import FilterComponent from './components/filter';
+import FiltersComponent from './components/filters-component';
 import StatsComponent from './components/statistics';
 
 import {createFilters} from './mocks/filters';
@@ -18,8 +18,10 @@ const STAT_ITEM_NAMES = [`money`, `transport`, `time-spend`];
 const filters = createFilters();
 const days = createDays(DAYS_LIMIT);
 
+const navElement = document.querySelector(`.trip-controls__menus`);
+const navStatsElement = document.querySelector(`.trip-controls__menus a:nth-child(2)`);
 const tripPointsContainerElement = document.querySelector(`.trip-points`);
-const filtersContainerElement = document.querySelector(`.trip-filter`);
+
 const mainElement = document.querySelector(`.main`);
 
 // STATS
@@ -27,7 +29,6 @@ const mainElement = document.querySelector(`.main`);
 const stats = new StatsComponent(STAT_ITEM_NAMES);
 const statsElement = stats.render();
 
-const navStatsElement = document.querySelector(`.trip-controls__menus a:nth-child(2)`);
 const handleStatsClick = (evt) => {
   evt.preventDefault();
 
@@ -40,37 +41,6 @@ const handleStatsClick = (evt) => {
 navStatsElement.addEventListener(`click`, handleStatsClick);
 
 document.body.appendChild(statsElement);
-
-// FILTERS
-
-const filterateDays = (attribute, daysData) => {
-  let filteredDays;
-  switch (attribute) {
-    case `filter-everything`:
-      filteredDays = daysData;
-      filteredDays.map((it, index) => {
-        it[`day_number`] = index + 1;
-      });
-      break;
-    case `filter-future`:
-      filteredDays = daysData
-        .filter((it) => it[`date-timestamp`] > Date.now());
-
-      filteredDays.map((it, index) => {
-        it[`day_number`] = index + 1;
-      });
-      break;
-    case `filter-past`:
-      filteredDays = daysData
-        .filter((it) => it[`date-timestamp`] < Date.now());
-      filteredDays.map((it, index) => {
-        it[`day_number`] = index + 1;
-      });
-      break;
-  }
-
-  return filteredDays;
-};
 
 const renderDays = (daysData) => {
   daysData.forEach((day) => {
@@ -124,18 +94,15 @@ const removeAllChildNodes = (parentNode) => {
   }
 };
 
-
 renderDays(days);
 
-filters.forEach((filter) => {
-  const filterItem = new FilterComponent(filter);
-  const filterElement = filterItem.render();
-  filtersContainerElement.appendChild(filterElement);
+const filtersComponent = new FiltersComponent(filters);
 
-  filterItem.onFilterClick((filterAttribute) => {
-    let filteredDays = filterateDays(filterAttribute, days);
-    removeAllChildNodes(tripPointsContainerElement);
-    renderDays(filteredDays);
-  });
-});
+filtersComponent.onChange = (filterId) => {
+  console.log(`был выбран фильтр ` + filterId);
+  let filteredDays = filtersComponent.onFiltate(filterId, days);
+  removeAllChildNodes(tripPointsContainerElement);
+  renderDays(filteredDays);
+};
 
+navElement.appendChild(filtersComponent.render());

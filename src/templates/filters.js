@@ -1,6 +1,5 @@
 export const createFilterTemplate = (filter) => {
-  return `<span>
-    <input
+  return `<span><input
       type="radio"
       id="filter-${filter.name}"
       name="filter"
@@ -13,7 +12,12 @@ export const createFilterTemplate = (filter) => {
     >
       ${filter.description}
     </label>
-  </span>`;
+    </span>`;
 };
 
+
+export const createFiltersTemplate = () => (
+  `<form class="trip-filter">
+  </form>`
+);
 

@@ -1,7 +1,7 @@
 import Component from './component';
 import {createFilterTemplate} from '../templates/filters';
 
-export default class FilterComponent extends Component {
+export default class Filter extends Component {
   constructor(data) {
     super(data);
 
@@ -10,6 +10,10 @@ export default class FilterComponent extends Component {
 
   get template() {
     return createFilterTemplate(this._data);
+  }
+
+  set onSelect(fn) {
+    this._onSelect = fn;
   }
 
   createEventListeners() {
@@ -21,10 +25,17 @@ export default class FilterComponent extends Component {
   }
 
   handleFilter(evt) {
-    const filterAttribute = evt.target.getAttribute(`for`);
-    if (this.clickCallback) {
-      this.clickCallback(filterAttribute);
+    evt.preventDefault();
+
+    if (typeof this._onSelect === `function`) {
+      const filterAttribute = evt.target.getAttribute(`for`);
+      this._onSelect(filterAttribute);
     }
+
+    // const filterAttribute = evt.target.getAttribute(`for`);
+    // if (this.clickCallback) {
+    //   this.clickCallback(filterAttribute);
+    // }
   }
 
   onFilterClick(callback) {
