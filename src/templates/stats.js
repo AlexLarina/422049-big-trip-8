@@ -5,7 +5,7 @@ const createStatsItemTemplate = (name) => (
 );
 
 export const createStatsTemplate = (names) => (
-  `<section class="statistic content-wrap visually-hidden" id="stats" style="border: 2px solid red;">
+  `<section class="statistic content-wrap visually-hidden" id="stats">
     ${names
       .map((name) =>
         createStatsItemTemplate(name)
