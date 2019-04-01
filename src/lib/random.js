@@ -12,3 +12,10 @@ export const getRandomObjectValue = (object) => {
   const keys = Object.keys(object);
   return object[keys[createRandomNumber(0, keys.length - 1)]];
 };
+
+export const createRandomDate = (msRange) => {
+  const now = new Date().getTime();
+  const date = new Date(now + createRandomNumber(-msRange, msRange));
+
+  return date;
+};

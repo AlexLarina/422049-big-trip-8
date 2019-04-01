@@ -1,61 +1,65 @@
 import 'flatpickr/dist/flatpickr.min.css';
 
-import EventViewComponent from './components/event-view';
-import EventEditComponent from './components/event-edit';
-import TripDayComponent from './components/trip-day';
+import FiltersComponent from './components/filters-component';
+import StatsComponent from './components/statistics';
 
 import {createFilters} from './mocks/filters';
-import {createEvents} from './mocks/events';
 import {createDays} from './mocks/days';
 
-import {createFiltersTemplate} from './templates/filters';
+import filterateDays from './lib/filterate';
+import {
+  visibilityToggle,
+  removeAllChildNodes,
+  removeActiveToggle} from './lib/node';
+import renderDays from './lib/render-days';
 
 const EVENTS_LIMIT = 2;
-const DAYS_LIMIT = 2;
+const DAYS_LIMIT = 7;
+const STAT_ITEM_NAMES = [`money`, `transport`, `time-spend`];
 
 const filters = createFilters();
 const days = createDays(DAYS_LIMIT);
 
-const tripPointsContainer = document.querySelector(`.trip-points`);
+const navElement = document.querySelector(`.trip-controls__menus`);
+const navTableElement = document.querySelector(`.trip-controls__menus a:first-child`);
+const navStatsElement = document.querySelector(`.trip-controls__menus a:nth-child(2)`);
+const mainElement = document.querySelector(`.main`);
+const tripPointsContainerElement = document.querySelector(`.trip-points`);
 
-const filtersContainerElement = document.querySelector(`.trip-filter`);
-filtersContainerElement.innerHTML = createFiltersTemplate(filters);
 
-days.forEach((day) => {
-  const tripDay = new TripDayComponent(day);
-  const tripDayElement = tripDay.render();
-  tripPointsContainer.appendChild(tripDayElement);
+const stats = new StatsComponent(STAT_ITEM_NAMES);
+const statsElement = stats.render();
+document.body.appendChild(statsElement);
 
-  tripDay.onClick(() =>{
-    console.log(`data clicked!`);
-  });
+const handleStatsClick = (evt, target) => {
+  evt.preventDefault();
 
-  const eventsContainerElement = tripDayElement.querySelector(`.trip-day__items`);
-  let events = createEvents(EVENTS_LIMIT);
+  visibilityToggle(mainElement);
+  visibilityToggle(statsElement);
 
-  events.forEach((event) => {
-    const componentView = new EventViewComponent(event);
-    const componentEdit = new EventEditComponent(event);
+  removeActiveToggle(navElement);
+  target.classList.add(`view-switch__item--active`);
+};
 
-    let componentViewElement = componentView.render();
-    let componentEditElement;
-
-    eventsContainerElement.appendChild(componentViewElement);
-
-    componentView.onClick(() => {
-      componentEditElement = componentEdit.render();
-      eventsContainerElement.replaceChild(componentEditElement, componentViewElement);
-      componentView.unrender();
-    });
-
-    componentEdit.onSubmit((newObject) => {
-      componentView.update(newObject);
-
-      componentViewElement = componentView.render();
-      eventsContainerElement.replaceChild(componentViewElement, componentEditElement);
-      componentEdit.unrender();
-
-    });
-  });
+navStatsElement.addEventListener(`click`, (evt) => {
+  handleStatsClick(evt, navStatsElement);
 });
 
+navTableElement.addEventListener(`click`, (evt) => {
+  handleStatsClick(evt, navTableElement);
+});
+
+
+const filtersComponent = new FiltersComponent(filters);
+navElement.appendChild(filtersComponent.render());
+const navFiltersFormElement = document.querySelector(`form.trip-filter`);
+
+filtersComponent.onChange = (filterId) => {
+  navFiltersFormElement.querySelector(`#` + filterId).checked = true;
+  let filteredDays = filterateDays(filterId, days);
+  removeAllChildNodes(tripPointsContainerElement);
+  renderDays(filteredDays, tripPointsContainerElement, EVENTS_LIMIT);
+};
+
+
+renderDays(days, tripPointsContainerElement, EVENTS_LIMIT);

@@ -1,5 +1,3 @@
-import {createRandomNumber} from '../lib/random';
-
 const NAMES = [`everything`, `future`, `past`];
 
 const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
@@ -11,7 +9,7 @@ export const createFilters = () => {
     description: capitalize(name)
   }));
 
-  filters[createRandomNumber(0, filters.length - 1)].isSelected = true;
+  filters[0].isSelected = true;
 
   return filters;
 };

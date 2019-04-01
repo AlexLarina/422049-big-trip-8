@@ -1,9 +1,15 @@
-import {createRandomNumber} from '../lib/random';
+import {createRandomDate} from '../lib/random';
+
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000;
+const MONTHS = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
 
 const createDate = (number) => {
+  const randomDate = createRandomDate(2 * WEEK_MS);
+
   return {
+    'date-timestamp': randomDate,
     'day_number': number,
-    'date': createRandomNumber(1, 30) + ` Apr`
+    'date': `${randomDate.getDay()} ${MONTHS[randomDate.getMonth()]}`
   };
 };
 
