@@ -19,28 +19,47 @@ const filters = createFilters();
 const days = createDays(DAYS_LIMIT);
 
 const navElement = document.querySelector(`.trip-controls__menus`);
+const navTableElement = document.querySelector(`.trip-controls__menus a:first-child`);
 const navStatsElement = document.querySelector(`.trip-controls__menus a:nth-child(2)`);
+
 const tripPointsContainerElement = document.querySelector(`.trip-points`);
 
 const mainElement = document.querySelector(`.main`);
+
+
+const removeActiveToggle = (parentNode) => {
+  const activeNode = parentNode.querySelector(`.view-switch__item--active`);
+  if (activeNode) {
+    activeNode.classList.remove(`view-switch__item--active`);
+  }
+};
 
 // STATS
 
 const stats = new StatsComponent(STAT_ITEM_NAMES);
 const statsElement = stats.render();
+document.body.appendChild(statsElement);
 
-const handleStatsClick = (evt) => {
+const handleStatsClick = (evt, target) => {
   evt.preventDefault();
 
   mainElement.classList.toggle(`visually-hidden`);
   statsElement.classList.toggle(`visually-hidden`);
 
-  navStatsElement.classList.add(`view-switch__item--active`);
+  removeActiveToggle(navElement);
+  target.classList.add(`view-switch__item--active`);
 };
 
-navStatsElement.addEventListener(`click`, handleStatsClick);
 
-document.body.appendChild(statsElement);
+navStatsElement.addEventListener(`click`, (evt) => {
+  handleStatsClick(evt, navStatsElement);
+});
+
+navTableElement.addEventListener(`click`, (evt) => {
+  handleStatsClick(evt, navTableElement);
+});
+
+//
 
 const renderDays = (daysData) => {
   daysData.forEach((day) => {
@@ -97,12 +116,42 @@ const removeAllChildNodes = (parentNode) => {
 renderDays(days);
 
 const filtersComponent = new FiltersComponent(filters);
+navElement.appendChild(filtersComponent.render());
+const navFiltersFormElement = document.querySelector(`form.trip-filter`);
+
+const filterateDays = (attribute, daysData) => {
+  let filteredDays;
+  switch (attribute) {
+    case `filter-everything`:
+      filteredDays = daysData;
+      filteredDays.map((it, index) => {
+        it[`day_number`] = index + 1;
+      });
+      break;
+    case `filter-future`:
+      filteredDays = daysData
+        .filter((it) => it[`date-timestamp`] > Date.now());
+
+      filteredDays.map((it, index) => {
+        it[`day_number`] = index + 1;
+      });
+      break;
+    case `filter-past`:
+      filteredDays = daysData
+        .filter((it) => it[`date-timestamp`] < Date.now());
+      filteredDays.map((it, index) => {
+        it[`day_number`] = index + 1;
+      });
+      break;
+  }
+
+  return filteredDays;
+};
 
 filtersComponent.onChange = (filterId) => {
-  console.log(`был выбран фильтр ` + filterId);
-  let filteredDays = filtersComponent.onFiltate(filterId, days);
+  navFiltersFormElement.querySelector(`#` + filterId).checked = true;
+  let filteredDays = filterateDays(filterId, days);
   removeAllChildNodes(tripPointsContainerElement);
   renderDays(filteredDays);
 };
 
-navElement.appendChild(filtersComponent.render());
