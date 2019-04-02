@@ -55,14 +55,11 @@ const createDestinationTemplate = (event) => (
 );
 
 const createTimetableTemplate = (event) => (
-  `<label class="point__time">
+  `<div class="point__time">
     choose time
-    <input
-      class="point__input"
-      type="text" value="${event.get(`timetable`).start} — ${event.get(`timetable`).end}"
-      name="time" placeholder="00:00 — 00:00"
-    >
-  </label>`
+    <input class="point__input" type="text" value="${event.get(`timetable`).start}" name="date-start" placeholder="19:00">
+    <input class="point__input" type="text" value="${event.get(`timetable`).end}" name="date-end" placeholder="21:00">
+  </div>`
 );
 
 const createPriceTemplate = (event) => (

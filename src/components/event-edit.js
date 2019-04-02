@@ -45,11 +45,11 @@ export default class EventEditComponent extends Component {
   }
 
   _onChangeTime() {
-    flatpickr(`.point__time`, {
-      inline: true,
-      enableTime: true,
-      noCalendar: true
-    });
+    // flatpickr(`.point__time`, {
+    //   inline: true,
+    //   enableTime: true,
+    //   noCalendar: true
+    // });
   }
 
   get template() {
@@ -103,7 +103,13 @@ export default class EventEditComponent extends Component {
   render() {
     const element = super.render();
 
-    flatpickr(element.querySelector(`.point__time`), {
+    flatpickr(element.querySelector(`.point__time input[name='date-start']`), {
+      mode: `range`,
+      enableTime: true,
+      noCalendar: true
+    });
+
+    flatpickr(element.querySelector(`.point__time input[name='date-end']`), {
       mode: `range`,
       enableTime: true,
       noCalendar: true
@@ -113,7 +119,8 @@ export default class EventEditComponent extends Component {
   }
 
   unrender() {
-    flatpickr(this._element.querySelector(`.myClass`)).destroy();
+    flatpickr(this._element.querySelector(`.point__time input[name='date-start']`)).destroy();
+    flatpickr(this._element.querySelector(`.point__time input[name='date-end']`)).destroy();
     super.unrender();
   }
 

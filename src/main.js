@@ -12,6 +12,11 @@ import {
   removeAllChildNodes,
   removeActiveToggle} from './lib/node';
 import renderDays from './lib/render-days';
+import API from './api';
+
+const AUTHORIZATION = `Basic eo0w590ik${Math.random() * 10000}a`;
+const END_POINT = `https://es8-demo-srv.appspot.com/big-trip`;
+console.log(AUTHORIZATION);
 
 const EVENTS_LIMIT = 2;
 const DAYS_LIMIT = 7;
@@ -63,3 +68,7 @@ filtersComponent.onChange = (filterId) => {
 
 
 renderDays(days, tripPointsContainerElement, EVENTS_LIMIT);
+
+const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
+
+console.log(api.getEvents());
