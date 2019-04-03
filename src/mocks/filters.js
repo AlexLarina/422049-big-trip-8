@@ -1,6 +1,6 @@
-const NAMES = [`everything`, `future`, `past`];
+import {capitalize} from '../lib/filterate';
 
-const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+const NAMES = [`everything`, `future`, `past`];
 
 export const createFilters = () => {
   const filters = NAMES.map((name) => ({

@@ -1,4 +1,4 @@
-const convertOfferName = (offer) => offer.split(` `).map((word) => word.toLowerCase()).join(`-`);
+const convertOfferName = (offerTitle) => offerTitle.split(` `).map((word) => word.toLowerCase()).join(`-`);
 
 const createDateTemplate = () => (
   `<label class="point__date">
@@ -79,12 +79,13 @@ const createOffersTemplate = (event) => (
         `<input
           class="point__offers-input visually-hidden"
           type="checkbox"
-          id="${convertOfferName(offer)}"
+          id="${convertOfferName(offer.title)}"
           name="offer"
-          value="${convertOfferName(offer)}"
+          value="${convertOfferName(offer.title)}"
+          ${offer.accepted ? `checked` : ``}
         >
-        <label for="${convertOfferName(offer)}" class="point__offers-label">
-          <span class="point__offer-service">${offer}</span> + €<span class="point__offer-price">30</span>
+        <label for="${convertOfferName(offer.title)}" class="point__offers-label">
+          <span class="point__offer-service">${offer.title}</span> + €<span class="point__offer-price">${offer.price}</span>
         </label>`
       ))
     .join(``)}
@@ -99,7 +100,10 @@ const createDescriptionTemplate = (event) => (
       ${event.get(`description`)}
     </p>
     <div class="point__destination-images">
-      <img src="${event.get(`url`)}" alt="picture from place" class="point__destination-image">
+      ${(event.get(`pictures`)
+      .map((picture) =>
+        `<img src="${picture.src}" alt="${picture.description}" class="point__destination-image">`
+      )).join(``)}
     </div>
   </section>`
 );
@@ -118,7 +122,13 @@ const createHeaderTemplate = (event) => (
       </div>
 
       <div class="paint__favorite-wrap">
-        <input type="checkbox" class="point__favorite-input visually-hidden" id="favorite" name="favorite">
+        <input
+          type="checkbox"
+          class="point__favorite-input visually-hidden"
+          id="favorite"
+          name="favorite"
+          ${event.get(`isFavourite`) ? `checked` : ``}
+        >
         <label class="point__favorite" for="favorite">favorite</label>
       </div>
     </header>`

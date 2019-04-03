@@ -1,3 +1,5 @@
+import ModelEvent from './adapter';
+
 const Method = {
   GET: `GET`,
   POST: `POST`,
@@ -23,9 +25,15 @@ const API = class {
     this._authorization = authorization;
   }
 
+  consoleView() {
+    return this._load({url: `points`})
+      .then(toJSON).then(ModelEvent.sortEventsByDate);
+  }
+
   getEvents() {
     return this._load({url: `points`})
-      .then(toJSON);
+      .then(toJSON)
+      .then(ModelEvent.doParsingEvents);
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
@@ -40,6 +48,5 @@ const API = class {
   }
 
 };
-
 
 export default API;

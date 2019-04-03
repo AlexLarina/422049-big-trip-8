@@ -15,9 +15,9 @@ const renderDays = (daysData, container, limit) => {
 
     const eventsContainerElement = tripDayElement.querySelector(`.trip-day__items`);
 
-    let events = createEvents(limit);
+    // let events = createEvents(limit);
 
-    events.forEach((event) => {
+    daysData.forEach((event) => {
       const componentView = new EventViewComponent(event);
       const componentEdit = new EventEditComponent(event);
 

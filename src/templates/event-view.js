@@ -8,11 +8,13 @@ const createTimetableTemplate = (event) => (
 const createOffersTemplate = (offers) => (
   `<ul class="trip-point__offers">
     ${offers
-      .map((offer) => (
-        `<li>
-          <button class="trip-point__offer">${offer} +&euro;&nbsp;20</button>
-        </li>`
-      ))
+      .map((offer) => {
+        const offerTemplate = (offer.accepted) ?
+          `<li>
+            <button class="trip-point__offer">${offer.title} +&euro;&nbsp;${offer.price}</button>
+          </li>` : ``;
+        return offerTemplate;
+      })
     .join(``)}
   </ul>`
 );

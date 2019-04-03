@@ -27,4 +27,6 @@ const filterateDays = (attribute, daysData) => {
   return filteredDays;
 };
 
-export default filterateDays;
+const capitalize = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+
+export {filterateDays, capitalize};

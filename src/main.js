@@ -4,9 +4,8 @@ import FiltersComponent from './components/filters-component';
 import StatsComponent from './components/statistics';
 
 import {createFilters} from './mocks/filters';
-import {createDays} from './mocks/days';
 
-import filterateDays from './lib/filterate';
+import {filterateDays} from './lib/filterate';
 import {
   visibilityToggle,
   removeAllChildNodes,
@@ -16,14 +15,13 @@ import API from './api';
 
 const AUTHORIZATION = `Basic eo0w590ik${Math.random() * 10000}a`;
 const END_POINT = `https://es8-demo-srv.appspot.com/big-trip`;
-console.log(AUTHORIZATION);
 
 const EVENTS_LIMIT = 2;
-const DAYS_LIMIT = 7;
+// const DAYS_LIMIT = 7;
 const STAT_ITEM_NAMES = [`money`, `transport`, `time-spend`];
 
 const filters = createFilters();
-const days = createDays(DAYS_LIMIT);
+// const days = createDays(DAYS_LIMIT);
 
 const navElement = document.querySelector(`.trip-controls__menus`);
 const navTableElement = document.querySelector(`.trip-controls__menus a:first-child`);
@@ -67,8 +65,14 @@ filtersComponent.onChange = (filterId) => {
 };
 
 
-renderDays(days, tripPointsContainerElement, EVENTS_LIMIT);
+// renderDays(days, tripPointsContainerElement, EVENTS_LIMIT);
 
 const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 
-console.log(api.getEvents());
+api.getEvents()
+  .then((events) => {
+    renderDays(events, tripPointsContainerElement, events.length);
+    // debugger;
+  });
+
+console.log(api.consoleView());
