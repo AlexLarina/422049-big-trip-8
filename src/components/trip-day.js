@@ -3,14 +3,16 @@ import {createTripDayTemplate} from '../templates/trip-day';
 import flatpickr from 'flatpickr';
 
 export default class TripDayComponent extends Component {
-  constructor(data) {
-    super(data);
+  constructor(dayNumber, date) {
+    super();
+    this.dayNumber = dayNumber;
+    this.date = date;
 
     this.handleClick = this.handleClick.bind(this);
   }
 
   get template() {
-    return createTripDayTemplate(this._data);
+    return createTripDayTemplate(this.dayNumber, this.date);
   }
 
   createEventListeners() {

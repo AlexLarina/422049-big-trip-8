@@ -71,7 +71,7 @@ const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 
 api.getEvents()
   .then((events) => {
-    renderDays(events, tripPointsContainerElement, events.length);
+    renderDays(events, tripPointsContainerElement);
     // debugger;
   });
 

@@ -1,6 +1,6 @@
 import {capitalize} from './lib/filterate';
 
-const DAY_MS = 24 * 60 * 60 * 1000;
+const MONTHS = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`]
 const TRANSPORT = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`];
 const LOCALS = [`Check-in`, `Sightseeing`, `Restaurant`];
 
@@ -24,7 +24,8 @@ export default class ModelEvent {
     this.pictures = data.destination.pictures;// data.destination.pictures[0].src;
     this.offers = data.offers;
     this.description = data.destination.description;
-    this.date = new Date(data[`date_from`]).getDate();
+    this.dateDayNumber = new Date(data[`date_from`]).getDate();
+    this.date = `${new Date(data[`date_from`]).getDate()} ${MONTHS[new Date(data[`date_from`]).getMonth()]}`;
     this.timetable = {
       start: `${new Date(data[`date_from`]).getHours()}:00`,
       end: `${new Date(data[`date_to`]).getHours()}:00`,
@@ -43,28 +44,24 @@ export default class ModelEvent {
   }
 
   static doParsingEvents(data) {
-    //console.log(data.map(ModelEvent.doParsingEvent));
     return data.map(ModelEvent.doParsingEvent);
   }
 
   static sortEventsByDate(data) {
     const daysData = ModelEvent.doParsingEvents(data);
-    console.log(daysData);
     const allDaysArray = [];
+    let dayArray = [];
     for (let i = 1; i < daysData.length; i++) {
-      let dayArray = [];
       dayArray.push(daysData[i - 1]);
       // console.log(daysData[i - 1].get(`date`));
-      if (daysData[i].get(`date`) - daysData[i - 1].get(`date`) < 1) {
+      if (daysData[i].get(`dateDayNumber`) - daysData[i - 1].get(`dateDayNumber`) < 1) {
         // debugger;
         dayArray.push(daysData[i]);
       } else {
         allDaysArray.push(dayArray);
-        i++;
+        dayArray = [];
       }
     }
-
-    console.log(allDaysArray);
     return allDaysArray;
   }
 }

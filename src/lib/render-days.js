@@ -3,9 +3,9 @@ import EventEditComponent from '../components/event-edit';
 import TripDayComponent from '../components/trip-day';
 import {createEvents} from '../mocks/events';
 
-const renderDays = (daysData, container, limit) => {
-  daysData.forEach((day) => {
-    const tripDay = new TripDayComponent(day);
+const renderDays = (daysData, container) => {
+  daysData.forEach((day, index) => {
+    const tripDay = new TripDayComponent(index + 1, day[0].get(`date`));
     const tripDayElement = tripDay.render();
     container.appendChild(tripDayElement);
 
@@ -17,7 +17,7 @@ const renderDays = (daysData, container, limit) => {
 
     // let events = createEvents(limit);
 
-    daysData.forEach((event) => {
+    day.forEach((event) => {
       const componentView = new EventViewComponent(event);
       const componentEdit = new EventEditComponent(event);
 

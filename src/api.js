@@ -33,7 +33,7 @@ const API = class {
   getEvents() {
     return this._load({url: `points`})
       .then(toJSON)
-      .then(ModelEvent.doParsingEvents);
+      .then(ModelEvent.sortEventsByDate);
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
