@@ -75,3 +75,7 @@ api.getEvents()
     // debugger;
   });
 
+// console.log(`Custom points`);
+// api.consoleView(`points`);
+console.log(`Custom destinations`);
+api.consoleView(`destinations`);

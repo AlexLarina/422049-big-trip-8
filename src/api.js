@@ -25,9 +25,11 @@ const API = class {
     this._authorization = authorization;
   }
 
-  consoleView() {
-    return this._load({url: `points`})
-      .then(toJSON).then(ModelEvent.sortEventsByDate);
+  consoleView(customURL) {
+    console.log(this._load({url: customURL})
+    .then(toJSON));
+    // return this._load({url: customURL})
+    //   .then(toJSON);
   }
 
   getEvents() {

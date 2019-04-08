@@ -102,14 +102,16 @@ export default class EventEditComponent extends Component {
 
   render() {
     const element = super.render();
+    const timeStartElement = this.element.querySelector(`.point__time input[name='date-start']`);
+    const timeEndElement = this.element.querySelector(`.point__time input[name='date-end']`);
 
-    flatpickr(element.querySelector(`.point__time input[name='date-start']`), {
+    this.timeStart = flatpickr(timeStartElement, {
       mode: `range`,
       enableTime: true,
       noCalendar: true
     });
 
-    flatpickr(element.querySelector(`.point__time input[name='date-end']`), {
+    this.timeEnd = flatpickr(timeEndElement, {
       mode: `range`,
       enableTime: true,
       noCalendar: true
@@ -119,8 +121,12 @@ export default class EventEditComponent extends Component {
   }
 
   unrender() {
-    flatpickr(this._element.querySelector(`.point__time input[name='date-start']`)).destroy();
-    flatpickr(this._element.querySelector(`.point__time input[name='date-end']`)).destroy();
+    this.timeStart.destroy();
+    this.timeEnd.destroy();
+
+    this.timeStart = null;
+    this.timeEnd = null;
+
     super.unrender();
   }
 
