@@ -28,14 +28,17 @@ const API = class {
   consoleView(customURL) {
     console.log(this._load({url: customURL})
     .then(toJSON));
-    // return this._load({url: customURL})
-    //   .then(toJSON);
   }
 
   getEvents() {
     return this._load({url: `points`})
       .then(toJSON)
       .then(ModelEvent.sortEventsByDate);
+  }
+
+  getDestinations() {
+    return this._load({url: `destinations`})
+      .then(toJSON);
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {

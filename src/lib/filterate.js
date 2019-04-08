@@ -3,7 +3,7 @@ const filterateDays = (attribute, daysData) => {
   switch (attribute) {
     case `filter-everything`:
       filteredDays = daysData;
-      filteredDays.map((it, index) => {
+      daysData.map((it, index) => {
         it[`day_number`] = index + 1;
       });
       break;

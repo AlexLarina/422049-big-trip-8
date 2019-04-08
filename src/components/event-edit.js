@@ -45,11 +45,7 @@ export default class EventEditComponent extends Component {
   }
 
   _onChangeTime() {
-    // flatpickr(`.point__time`, {
-    //   inline: true,
-    //   enableTime: true,
-    //   noCalendar: true
-    // });
+    // @TODO обработка виджетов изменения времени
   }
 
   get template() {

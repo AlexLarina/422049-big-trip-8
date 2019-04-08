@@ -29,10 +29,6 @@ export default class Filter extends Component {
 
     if (typeof this._onSelect === `function`) {
       const filterAttribute = evt.target.getAttribute(`for`);
-
-      // const element = this.render();
-      // element.querySelector(`#` + filterAttribute).checked = true;
-
       this._onSelect(filterAttribute);
     }
 

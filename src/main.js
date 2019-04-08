@@ -15,13 +15,12 @@ import API from './api';
 
 const AUTHORIZATION = `Basic eo0w590ik${Math.random() * 10000}a`;
 const END_POINT = `https://es8-demo-srv.appspot.com/big-trip`;
+const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
 
 const EVENTS_LIMIT = 2;
-// const DAYS_LIMIT = 7;
 const STAT_ITEM_NAMES = [`money`, `transport`, `time-spend`];
 
 const filters = createFilters();
-// const days = createDays(DAYS_LIMIT);
 
 const navElement = document.querySelector(`.trip-controls__menus`);
 const navTableElement = document.querySelector(`.trip-controls__menus a:first-child`);
@@ -64,18 +63,8 @@ filtersComponent.onChange = (filterId) => {
   renderDays(filteredDays, tripPointsContainerElement, EVENTS_LIMIT);
 };
 
-
-// renderDays(days, tripPointsContainerElement, EVENTS_LIMIT);
-
-const api = new API({endPoint: END_POINT, authorization: AUTHORIZATION});
-
 api.getEvents()
   .then((events) => {
     renderDays(events, tripPointsContainerElement);
-    // debugger;
   });
 
-// console.log(`Custom points`);
-// api.consoleView(`points`);
-console.log(`Custom destinations`);
-api.consoleView(`destinations`);

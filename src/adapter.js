@@ -38,16 +38,16 @@ export default class ModelEvent {
     this.types = Object.assign({}, TYPES);
   }
 
-  static doParsingEvent(data) {
+  static parseEvent(data) {
     return new Map(Object.entries(new ModelEvent(data)));
   }
 
-  static doParsingEvents(data) {
-    return data.map(ModelEvent.doParsingEvent);
+  static parseEvents(data) {
+    return data.map(ModelEvent.parseEvent);
   }
 
   static sortEventsByDate(data) {
-    const daysData = ModelEvent.doParsingEvents(data);
+    const daysData = ModelEvent.parseEvents(data);
     const allDaysArray = [];
     let dayArray = [];
     for (let i = 1; i < daysData.length; i++) {
