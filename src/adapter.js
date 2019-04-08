@@ -1,6 +1,6 @@
 import {capitalize} from './lib/filterate';
 
-const MONTHS = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`]
+const MONTHS = [`Jan`, `Feb`, `Mar`, `Apr`, `May`, `Jun`, `Jul`, `Aug`, `Sep`, `Oct`, `Nov`, `Dec`];
 const TRANSPORT = [`Taxi`, `Bus`, `Train`, `Ship`, `Transport`, `Drive`, `Flight`];
 const LOCALS = [`Check-in`, `Sightseeing`, `Restaurant`];
 
@@ -21,7 +21,7 @@ export default class ModelEvent {
   constructor(data) {
     this.type = TYPES[capitalize(data.type)];
     this.city = data.destination.name;
-    this.pictures = data.destination.pictures;// data.destination.pictures[0].src;
+    this.pictures = data.destination.pictures;
     this.offers = data.offers;
     this.description = data.destination.description;
     this.dateDayNumber = new Date(data[`date_from`]).getDate();
@@ -39,7 +39,6 @@ export default class ModelEvent {
   }
 
   static doParsingEvent(data) {
-    // console.log(new Map(Object.entries(new ModelEvent(data))));
     return new Map(Object.entries(new ModelEvent(data)));
   }
 
@@ -53,10 +52,9 @@ export default class ModelEvent {
     let dayArray = [];
     for (let i = 1; i < daysData.length; i++) {
       dayArray.push(daysData[i - 1]);
-      // console.log(daysData[i - 1].get(`date`));
       if (daysData[i].get(`dateDayNumber`) - daysData[i - 1].get(`dateDayNumber`) < 1) {
-        // debugger;
         dayArray.push(daysData[i]);
+        i++;
       } else {
         allDaysArray.push(dayArray);
         dayArray = [];

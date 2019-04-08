@@ -1,7 +1,6 @@
 import EventViewComponent from '../components/event-view';
 import EventEditComponent from '../components/event-edit';
 import TripDayComponent from '../components/trip-day';
-import {createEvents} from '../mocks/events';
 
 const renderDays = (daysData, container) => {
   daysData.forEach((day, index) => {
@@ -14,8 +13,6 @@ const renderDays = (daysData, container) => {
     });
 
     const eventsContainerElement = tripDayElement.querySelector(`.trip-day__items`);
-
-    // let events = createEvents(limit);
 
     day.forEach((event) => {
       const componentView = new EventViewComponent(event);

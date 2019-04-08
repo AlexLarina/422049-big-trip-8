@@ -75,4 +75,3 @@ api.getEvents()
     // debugger;
   });
 
-console.log(api.consoleView());
