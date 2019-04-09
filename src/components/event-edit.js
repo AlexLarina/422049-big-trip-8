@@ -4,8 +4,9 @@ import {createEmpty as createEmptyEvent} from '../models/event';
 import flatpickr from 'flatpickr';
 
 export default class EventEditComponent extends Component {
-  constructor(data) {
+  constructor(data, destinations) {
     super(data);
+    this.destinations = destinations;
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleReset = this.handleReset.bind(this);
@@ -49,7 +50,7 @@ export default class EventEditComponent extends Component {
   }
 
   get template() {
-    return createEventEditTemplate(this._data);
+    return createEventEditTemplate(this._data, this.destinations);
   }
 
   createEventListeners() {

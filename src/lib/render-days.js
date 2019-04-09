@@ -2,7 +2,7 @@ import EventViewComponent from '../components/event-view';
 import EventEditComponent from '../components/event-edit';
 import TripDayComponent from '../components/trip-day';
 
-const renderDays = (daysData, container) => {
+const renderDays = (daysData, container, destinations) => {
   daysData.forEach((day, index) => {
     const tripDay = new TripDayComponent(index + 1, day[0].get(`date`));
     const tripDayElement = tripDay.render();
@@ -16,7 +16,7 @@ const renderDays = (daysData, container) => {
 
     day.forEach((event) => {
       const componentView = new EventViewComponent(event);
-      const componentEdit = new EventEditComponent(event);
+      const componentEdit = new EventEditComponent(event, destinations);
 
       let componentViewElement = componentView.render();
       let componentEditElement;

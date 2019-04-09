@@ -41,15 +41,21 @@ const createTravelWayTemplate = (event) => (
 </div>`
 );
 
-const createDestinationTemplate = (event) => (
+const createDestinationTemplate = (event, destinations) => (
   `<div class="point__destination-wrap">
     <label class="point__destination-label" for="destination">Flight to</label>
     <input class="point__destination-input" list="destination-select" id="destination" value="${event.get(`city`)}" name="destination">
     <datalist id="destination-select">
-      <option value="airport"></option>
-      <option value="Geneva"></option>
-      <option value="Chamonix"></option>
-      <option value="hotel"></option>
+      ${destinations
+        .then((set) => {
+          const cities = [];
+          Array.from(set.values()).forEach((item) => {
+            cities.push(`<option value="${item.name}"></option>`);
+          });
+          console.log(cities.join(``));
+          return cities.join(``);
+        })
+  }
     </datalist>
   </div>`
 );
@@ -108,11 +114,11 @@ const createDescriptionTemplate = (event) => (
   </section>`
 );
 
-const createHeaderTemplate = (event) => (
+const createHeaderTemplate = (event, destinations) => (
   `<header class="point__header">
       ${createDateTemplate()}
       ${createTravelWayTemplate(event)}
-      ${createDestinationTemplate(event)}
+      ${createDestinationTemplate(event, destinations)}
       ${createTimetableTemplate(event)}
       ${createPriceTemplate(event)}
 
@@ -142,10 +148,10 @@ const createDetailsTemplate = (event) => (
   </section>`
 );
 
-const createEventEditTemplate = (event) => (
+const createEventEditTemplate = (event, destinations) => (
   `<article class="point">
   <form action="" method="get">
-    ${createHeaderTemplate(event)}
+    ${createHeaderTemplate(event, destinations)}
     ${createDetailsTemplate(event)}
   </form>
 </article>`

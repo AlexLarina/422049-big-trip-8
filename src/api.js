@@ -19,6 +19,20 @@ const toJSON = (response) => {
   return response.json();
 };
 
+const toSet = (response) => {
+  return new Set(Array.from(response));
+};
+
+const offersToObj = (response) => {
+  response.json().then((array) => {
+    array.forEach((item) => {
+      console.log(item);
+
+      // @TODO не получается создать объект { item.type: item.offers }
+    });
+  });
+};
+
 const API = class {
   constructor({endPoint, authorization}) {
     this._endPoint = endPoint;
@@ -32,13 +46,19 @@ const API = class {
 
   getEvents() {
     return this._load({url: `points`})
-      .then(toJSON)
-      .then(ModelEvent.sortEventsByDate);
+      .then(toJSON);
+      //.then(ModelEvent.sortEventsByDate);
   }
 
   getDestinations() {
     return this._load({url: `destinations`})
-      .then(toJSON);
+      .then(toJSON)
+      .then(toSet);
+  }
+
+  getOffers() {
+    return this._load({url: `offers`})
+      .then(offersToObj);
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {

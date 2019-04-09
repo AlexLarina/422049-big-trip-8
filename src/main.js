@@ -12,6 +12,7 @@ import {
   removeActiveToggle} from './lib/node';
 import renderDays from './lib/render-days';
 import API from './api';
+import ModelEvent from './adapter';
 
 const AUTHORIZATION = `Basic eo0w590ik${Math.random() * 10000}a`;
 const END_POINT = `https://es8-demo-srv.appspot.com/big-trip`;
@@ -64,7 +65,9 @@ filtersComponent.onChange = (filterId) => {
 };
 
 api.getEvents()
+  .then(ModelEvent.sortEventsByDate)
   .then((events) => {
-    renderDays(events, tripPointsContainerElement);
+    renderDays(events, tripPointsContainerElement, api.getDestinations());
   });
 
+console.log(api.getOffers());
