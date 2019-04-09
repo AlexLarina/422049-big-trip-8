@@ -11,8 +11,9 @@ import {
   removeAllChildNodes,
   removeActiveToggle} from './lib/node';
 import renderDays from './lib/render-days';
-import API from './api';
-import ModelEvent from './adapter';
+import API from './lib/api';
+
+import ModelEvent from './models/event';
 
 const AUTHORIZATION = `Basic eo0w590ik${Math.random() * 10000}a`;
 const END_POINT = `https://es8-demo-srv.appspot.com/big-trip`;
@@ -52,7 +53,6 @@ navTableElement.addEventListener(`click`, (evt) => {
   handleStatsClick(evt, navTableElement);
 });
 
-
 const filtersComponent = new FiltersComponent(filters);
 navElement.appendChild(filtersComponent.render());
 const navFiltersFormElement = document.querySelector(`form.trip-filter`);
@@ -64,10 +64,12 @@ filtersComponent.onChange = (filterId) => {
   renderDays(filteredDays, tripPointsContainerElement, EVENTS_LIMIT);
 };
 
-api.getEvents()
-  .then(ModelEvent.sortEventsByDate)
-  .then((events) => {
-    renderDays(events, tripPointsContainerElement, api.getDestinations());
+Promise
+  .all([
+    api.getEvents(),
+    api.getDestinations(),
+    api.getOffers()
+  ])
+  .then(([events, destinations, offers]) => {
+    renderDays(events, tripPointsContainerElement, destinations);
   });
-
-console.log(api.getOffers());

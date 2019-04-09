@@ -1,4 +1,4 @@
-import ModelEvent from './adapter';
+import ModelEvent from '../models/event';
 
 const Method = {
   GET: `GET`,
@@ -15,23 +15,21 @@ const checkStatus = (response) => {
   }
 };
 
-const toJSON = (response) => {
-  return response.json();
+const toJSON = (response) => response.json();
+const toSet = (response) => new Set(Array.from(response));
+
+const mapOfferToModel = (offer, index) => {
+  /// @TODO
+  return null;
 };
 
-const toSet = (response) => {
-  return new Set(Array.from(response));
-};
-
-const offersToObj = (response) => {
-  response.json().then((array) => {
-    array.forEach((item) => {
-      console.log(item);
-
-      // @TODO не получается создать объект { item.type: item.offers }
-    });
-  });
-};
+const offersToObj = (response) => (
+  response
+    .json()
+    .then((items) =>
+      Promise.resolve(items.map(mapOfferToModel))
+    )
+);
 
 const API = class {
   constructor({endPoint, authorization}) {
@@ -46,8 +44,8 @@ const API = class {
 
   getEvents() {
     return this._load({url: `points`})
-      .then(toJSON);
-      //.then(ModelEvent.sortEventsByDate);
+      .then(toJSON)
+      .then((data) => Promise.resolve(ModelEvent.sortEventsByDate(data)));
   }
 
   getDestinations() {
@@ -57,8 +55,7 @@ const API = class {
   }
 
   getOffers() {
-    return this._load({url: `offers`})
-      .then(offersToObj);
+    return this._load({url: `offers`}).then(offersToObj);
   }
 
   _load({url, method = Method.GET, body = null, headers = new Headers()}) {
