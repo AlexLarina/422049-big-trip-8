@@ -72,4 +72,7 @@ Promise
   ])
   .then(([events, destinations, offers]) => {
     renderDays(events, tripPointsContainerElement, destinations);
+    Array.from(destinations.values()).forEach(element => {
+      //console.log(element);
+    });
   });

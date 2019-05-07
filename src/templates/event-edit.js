@@ -46,16 +46,9 @@ const createDestinationTemplate = (event, destinations) => (
     <label class="point__destination-label" for="destination">Flight to</label>
     <input class="point__destination-input" list="destination-select" id="destination" value="${event.get(`city`)}" name="destination">
     <datalist id="destination-select">
-      ${destinations
-        .then((set) => {
-          const cities = [];
-          Array.from(set.values()).forEach((item) => {
-            cities.push(`<option value="${item.name}"></option>`);
-          });
-          console.log(cities.join(``));
-          return cities.join(``);
-        })
-  }
+      ${Array.from(destinations).map((destination) => (
+    `<option value="${destination.name}"></option>`
+  )).join(``)}
     </datalist>
   </div>`
 );

@@ -13,14 +13,15 @@ export default class EventEditComponent extends Component {
 
     this._onChangePrice = this._onChangePrice.bind(this);
     this._onChangeCity = this._onChangeCity.bind(this);
-    this._onChangeTime = this._onChangeTime.bind(this);
+    this._onChangeTimeStart = this._onChangeTimeStart.bind(this);
   }
 
   static createMapper(data) {
     return {
-      destination: (value) => data.set(`city`, value),
-      price: (value) => data.set(`price`, value),
-      time: (value) => data.set(`timetable`, value)
+      'destination': (value) => data.set(`city`, value),
+      'price': (value) => data.set(`price`, value),
+      'date_start': (value) => data.set(`timetable`.start, value),
+      'date_end': (value) => data.set(`timetable`.end, value)
     };
   }
 
@@ -34,6 +35,8 @@ export default class EventEditComponent extends Component {
       }
     });
 
+    console.log(event);
+
     return event;
   }
 
@@ -43,9 +46,21 @@ export default class EventEditComponent extends Component {
 
   _onChangeCity(evt) {
     this._newCity = evt.target.value;
+    const event = createEmptyEvent();
+    Array.from(this.destinations.values()).forEach((destination) => {
+      if (destination.name === evt.target.value) {
+        event.city = destination.name;
+        event.description = destination.description;
+      }
+    });
+    console.log(event);
+    this.update(event);
+    // this.render();
   }
 
-  _onChangeTime() {
+  _onChangeTimeStart(evt) {
+    console.log(evt.target.value);
+    this._newTimeStart = evt.target.value;
     // @TODO обработка виджетов изменения времени
   }
 
@@ -59,7 +74,7 @@ export default class EventEditComponent extends Component {
 
     this._element.querySelector(`.point__price .point__input`).addEventListener(`change`, this._onChangePrice);
     this._element.querySelector(`.point__destination-input`).addEventListener(`change`, this._onChangeCity);
-    this._element.querySelector(`.point__time .point__input`).addEventListener(`click`, this._onChangeTime);
+    this._element.querySelector(`.point__time input[name='date-start']`).addEventListener(`change`, this._onChangeTimeStart);
   }
 
   removeEventListeners() {
@@ -68,12 +83,13 @@ export default class EventEditComponent extends Component {
 
     this._element.querySelector(`.point__price .point__input`).removeEventListener(`change`, this._onChangePrice);
     this._element.querySelector(`.point__destination-input`).removeEventListener(`change`, this._onChangeCity);
-    this._element.querySelector(`.point__time .point__input`).removeEventListener(`click`, this._onChangeTime);
+    this._element.querySelector(`.point__time input[name='date-start']`).removeEventListener(`change`, this._onChangeTimeStart);
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(this._element.querySelector(`.point form`));
+    console.log(Array.from(formData.entries()));
     const eventModel = this._processForm(formData);
 
     this.update(eventModel);
@@ -126,5 +142,4 @@ export default class EventEditComponent extends Component {
 
     super.unrender();
   }
-
 }
