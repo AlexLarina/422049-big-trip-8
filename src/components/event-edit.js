@@ -16,25 +16,43 @@ export default class EventEditComponent extends Component {
     this._onChangeTimeStart = this._onChangeTimeStart.bind(this);
   }
 
+  static setTimetable (start, end) {
+    return {
+      'start': start,
+      'end': end,
+      'duration': end - start,
+    }
+  };
+
   static createMapper(data) {
+    console.log(`from mapper`);
+    console.log(data.get(`timetable`)[`start`]);
     return {
       'destination': (value) => data.set(`city`, value),
       'price': (value) => data.set(`price`, value),
-      'date_start': (value) => data.set(`timetable`.start, value),
-      'date_end': (value) => data.set(`timetable`.end, value)
+      'date-start': (value) => data.set(`timetable`, this.setTimetable(value, undefined)),
+      'date-end': (value) => data.set(`timetable`, this.setTimetable(undefined, value))
     };
   }
 
   _processForm(formData) {
     const event = createEmptyEvent();
+    console.log(`empty event:`);
+    console.log(event.get(`timetable`));
+    
     const mapper = EventEditComponent.createMapper(event);
+
+    console.log(`Маппер:`);
 
     Array.from(formData.entries()).forEach(([property, value]) => {
       if (mapper[property]) {
+        console.log(mapper[property]);
+        console.log(mapper[property](value));
         mapper[property](value);
       }
     });
 
+    console.log(`Event: `);
     console.log(event);
 
     return event;
@@ -61,6 +79,10 @@ export default class EventEditComponent extends Component {
   _onChangeTimeStart(evt) {
     console.log(evt.target.value);
     this._newTimeStart = evt.target.value;
+    const event = createEmptyEvent();
+    event.start = evt.target.value;
+    console.log(event);
+    this.update(event);
     // @TODO обработка виджетов изменения времени
   }
 
@@ -89,6 +111,7 @@ export default class EventEditComponent extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(this._element.querySelector(`.point form`));
+    console.log(`Form data:`);
     console.log(Array.from(formData.entries()));
     const eventModel = this._processForm(formData);
 
@@ -120,12 +143,14 @@ export default class EventEditComponent extends Component {
 
     this.timeStart = flatpickr(timeStartElement, {
       mode: `range`,
+      allowInput: true,
       enableTime: true,
       noCalendar: true
     });
 
     this.timeEnd = flatpickr(timeEndElement, {
       mode: `range`,
+      allowInput: true,
       enableTime: true,
       noCalendar: true
     });
