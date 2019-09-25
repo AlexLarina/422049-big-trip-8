@@ -17,14 +17,14 @@ const createOffersTemplate = (offers) => (
 );
 
 
-const createEventTemplate = (event) => (
-  `<article class="trip-point">
+const createEventTemplate = (event) => {
+  return `<article class="trip-point">
       <i class="trip-icon">${event.get(`type`)}</i>
       <h3 class="trip-point__title">${event.get(`city`)}</h3>
       ${createTimetableTemplate(event)}
       <p class="trip-point__price">&euro;&nbsp;${event.get(`price`)}</p>
       ${createOffersTemplate(event.get(`offers`))}
     </article>`
-);
+};
 
 export default createEventTemplate;

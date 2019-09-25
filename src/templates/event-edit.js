@@ -141,13 +141,15 @@ const createDetailsTemplate = (event) => (
   </section>`
 );
 
-const createEventEditTemplate = (event, destinations) => (
-  `<article class="point">
-  <form action="" method="get">
-    ${createHeaderTemplate(event, destinations)}
-    ${createDetailsTemplate(event)}
-  </form>
-</article>`
-);
+const createEventEditTemplate = (event, destinations) => {
+  return (
+    `<article class="point">
+      <form action="" method="get">
+        ${createHeaderTemplate(event, destinations)}
+        ${createDetailsTemplate(event)}
+      </form>
+    </article>`
+  )
+};
 
 export default createEventEditTemplate;

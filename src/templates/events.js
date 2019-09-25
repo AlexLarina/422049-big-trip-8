@@ -1,9 +1,11 @@
-const createTimetableTemplate = (event) => (
-  `<p class="trip-point__schedule">
+const createTimetableTemplate = (event) => {
+
+  console.log(event)
+  return `<p class="trip-point__schedule">
     <span class="trip-point__timetable">${event.timetable.start}&nbsp;&mdash; ${event.timetable.end}</span>
     <span class="trip-point__duration">${event.timetable.duration}h 00m</span>
   </p>`
-);
+};
 
 const createOffersTemplate = (offers) => (
   `<ul class="trip-point__offers">

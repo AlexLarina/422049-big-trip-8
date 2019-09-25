@@ -16,44 +16,32 @@ export default class EventEditComponent extends Component {
     this._onChangeTimeStart = this._onChangeTimeStart.bind(this);
   }
 
-  static setTimetable (start, end) {
-    return {
-      'start': start,
-      'end': end,
-      'duration': end - start,
-    }
-  };
-
   static createMapper(data) {
-    console.log(`from mapper`);
-    console.log(data.get(`timetable`)[`start`]);
+    const createTimeMapper = (fieldName) => (value) => {
+      const timetable = data.get('timetable')
+      timetable[fieldName] = value
+      data.set('timetable', timetable)
+    }
+
+    const createFieldMapper = (fieldName) => (value) => data.set(fieldName, value)
+
     return {
-      'destination': (value) => data.set(`city`, value),
-      'price': (value) => data.set(`price`, value),
-      'date-start': (value) => data.set(`timetable`, this.setTimetable(value, undefined)),
-      'date-end': (value) => data.set(`timetable`, this.setTimetable(undefined, value))
+      'destination': createFieldMapper('city'),
+      'price': createFieldMapper('price'),
+      'date-start': createTimeMapper('start'),
+      'date-end': createTimeMapper('end'),
     };
   }
 
   _processForm(formData) {
     const event = createEmptyEvent();
-    console.log(`empty event:`);
-    console.log(event.get(`timetable`));
-    
     const mapper = EventEditComponent.createMapper(event);
-
-    console.log(`Маппер:`);
 
     Array.from(formData.entries()).forEach(([property, value]) => {
       if (mapper[property]) {
-        console.log(mapper[property]);
-        console.log(mapper[property](value));
         mapper[property](value);
       }
     });
-
-    console.log(`Event: `);
-    console.log(event);
 
     return event;
   }
@@ -71,19 +59,15 @@ export default class EventEditComponent extends Component {
         event.description = destination.description;
       }
     });
-    console.log(event);
     this.update(event);
-    // this.render();
   }
 
   _onChangeTimeStart(evt) {
-    console.log(evt.target.value);
-    this._newTimeStart = evt.target.value;
+
     const event = createEmptyEvent();
     event.start = evt.target.value;
-    console.log(event);
-    this.update(event);
-    // @TODO обработка виджетов изменения времени
+
+    // this.update(event);
   }
 
   get template() {
@@ -110,9 +94,8 @@ export default class EventEditComponent extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(this._element.querySelector(`.point form`));
-    console.log(`Form data:`);
-    console.log(Array.from(formData.entries()));
+
+    const formData = new FormData(e.target);
     const eventModel = this._processForm(formData);
 
     this.update(eventModel);
@@ -142,17 +125,15 @@ export default class EventEditComponent extends Component {
     const timeEndElement = this.element.querySelector(`.point__time input[name='date-end']`);
 
     this.timeStart = flatpickr(timeStartElement, {
-      mode: `range`,
-      allowInput: true,
       enableTime: true,
-      noCalendar: true
+      noCalendar: true,
+      dateFormat: "H:i"
     });
 
     this.timeEnd = flatpickr(timeEndElement, {
-      mode: `range`,
-      allowInput: true,
       enableTime: true,
-      noCalendar: true
+      noCalendar: true,
+      dateFormat: "H:i"
     });
 
     return element;
